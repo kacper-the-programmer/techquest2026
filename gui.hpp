@@ -23,6 +23,6 @@ public:
     }
     void draw()
     {
-        DrawTexture(texture, );
+        // DrawTexture(texture);
     }
 };
