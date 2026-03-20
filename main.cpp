@@ -14,7 +14,7 @@ int main(void)
 
     ToggleFullscreen();
 
-    car player(1);
+    car player(0);
     map mapa(&player);
 
     while (!WindowShouldClose())

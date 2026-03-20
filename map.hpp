@@ -18,10 +18,10 @@ private:
     int element_height = 300;
 
     std::vector<Texture2D> textures = {
+        LoadTexture("assets/road/0.png"),
         LoadTexture("assets/road/1.png"),
         LoadTexture("assets/road/2.png"),
         LoadTexture("assets/road/3.png"),
-        LoadTexture("assets/road/4.png"),
     };
 
     std::vector<std::vector<int>>
