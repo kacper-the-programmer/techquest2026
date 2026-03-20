@@ -27,7 +27,7 @@ int main(void)
     };
 
     std::vector<std::vector<int>> elements2 = {
-        {2000, 2000},
+        {2000, 1000},
         {2000, 2000},
         {2000, 2020},
         {2000, 2000},
@@ -43,8 +43,8 @@ int main(void)
     };
 
     std::vector<Texture2D> ground_textures = {
-        LoadTexture("assets/road/asfalt.png"),
-        LoadTexture("assets/road/trawa.png"),
+        LoadTexture("assets/road/background/asphalt.png"),
+        LoadTexture("assets/road/background/grass.png"),
     };
 
     car player(0, scale);

@@ -29,9 +29,11 @@ private:
     image_widget speedmeter{"assets/gui/meters/speed.png", static_cast<float>(GetScreenWidth() / 13.5), static_cast<float>(GetScreenHeight() - (GetScreenHeight() / 3.15)), 3};
     image_widget grademeter{"assets/gui/meters/grade.png", static_cast<float>(GetScreenWidth() / 4.8), static_cast<float>(GetScreenHeight() - (GetScreenHeight() / 3.15)), 3};
 
-    image_widget pedal_clutch{"assets/gui/pedals/clutch_0.png", 0, 0, 3};
-    image_widget pedal_break{"assets/gui/pedals/break_0.png", 100, 0, 3};
-    image_widget pedal_gas{"assets/gui/pedals/gas_0.png", 250, 0, 3};
+    image_widget key_in{"assets/gui/key/in_0.png", static_cast<float>(GetScreenWidth() / 3), static_cast<float>(GetScreenHeight() - (GetScreenHeight() / 5.9)), 4};
+
+    image_widget pedal_clutch{"assets/gui/pedals/clutch_0.png", 50, 0, 3};
+    image_widget pedal_break{"assets/gui/pedals/break_0.png", 200, 0, 3};
+    image_widget pedal_gas{"assets/gui/pedals/gas_0.png", 350, 0, 3};
 
     std::vector<Sound> sfx = {
         LoadSound("assets/sfx/working_eng.wav"),
@@ -80,19 +82,23 @@ public:
         {
             this->speed += this->speed_constant * GetFrameTime();
             this->pedal_gas.change_image("assets/gui/pedals/gas_1.png");
+            this->pedal_break.change_y(-50);
         }
         else
         {
             this->pedal_gas.change_image("assets/gui/pedals/gas_0.png");
+            this->pedal_break.change_y(0);
         }
         if (IsKeyDown(KEY_S) && (this->speed >= 0 && this->gear > 0 || this->speed <= 0 && this->gear == -1))
         {
             this->speed -= this->speed_constant * 3 * GetFrameTime();
             this->pedal_break.change_image("assets/gui/pedals/break_1.png");
+            this->pedal_break.change_y(-50);
         }
         else
         {
             this->pedal_break.change_image("assets/gui/pedals/break_0.png");
+            this->pedal_break.change_y(0);
         }
         if (!IsKeyDown(KEY_W) && this->speed > 0)
         {
@@ -111,6 +117,7 @@ public:
         if (IsKeyDown(KEY_Q) && !IsKeyDown(KEY_W))
         {
             this->pedal_clutch.change_image("assets/gui/pedals/clutch_1.png");
+            this->pedal_clutch.change_y(-50);
 
             if (IsKeyDown(KEY_ONE))
             {
@@ -157,6 +164,7 @@ public:
         else
         {
             this->pedal_clutch.change_image("assets/gui/pedals/clutch_0.png");
+            this->pedal_clutch.change_y(0);
         }
     }
 
@@ -194,7 +202,7 @@ public:
         this->meter_holder.draw();
         this->speedmeter.draw();
         this->grademeter.draw();
-
+        this->key_in.draw();
         this->pedal_clutch.draw();
         this->pedal_break.draw();
         this->pedal_gas.draw();
