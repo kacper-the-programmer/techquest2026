@@ -11,6 +11,7 @@ private:
     int rotation = 0;
     int scale = 3;
     float max_speed = 200;
+    float speed = 0;
 
     Texture2D texture;
     Rectangle source;
@@ -41,11 +42,20 @@ public:
 
     void input()
     {
-        if (IsKeyDown(KEY_W) && IsKeyDown(KEY_A))
+        if (IsKeyDown(KEY_W) && this->speed <= this->max_speed)
+        {
+            this->speed += 40 * GetFrameTime();
+        }
+        if (IsKeyDown(KEY_S) && this->speed >= 0)
+        {
+            this->speed -= 100 * GetFrameTime();
+        }
+
+        if (IsKeyDown(KEY_A))
         {
             this->rotation--;
         }
-        if (IsKeyDown(KEY_W) && IsKeyDown(KEY_D))
+        if (IsKeyDown(KEY_D))
         {
             this->rotation++;
         }
@@ -53,35 +63,35 @@ public:
         if (IsKeyDown(KEY_Q))
         {
 
-            if (IsKeyPressed(KEY_ONE))
+            if (IsKeyDown(KEY_ONE))
             {
                 this->max_speed = 100;
             }
-            if (IsKeyPressed(KEY_TWO))
+            if (IsKeyDown(KEY_TWO))
             {
                 this->max_speed = 200;
             }
-            if (IsKeyPressed(KEY_THREE))
+            if (IsKeyDown(KEY_THREE))
             {
                 this->max_speed = 300;
             }
-            if (IsKeyPressed(KEY_FOUR))
+            if (IsKeyDown(KEY_FOUR))
             {
                 this->max_speed = 400;
             }
-            if (IsKeyPressed(KEY_FIVE))
+            if (IsKeyDown(KEY_FIVE))
             {
                 this->max_speed = 500;
             }
-            if (IsKeyPressed(KEY_SIX))
+            if (IsKeyDown(KEY_SIX))
             {
                 this->max_speed = 600;
             }
-            if (IsKeyPressed(KEY_ZERO))
+            if (IsKeyDown(KEY_ZERO))
             {
                 this->max_speed = 0;
             }
-            if (IsKeyPressed(KEY_MINUS))
+            if (IsKeyDown(KEY_MINUS))
             {
                 this->max_speed = -100;
             }
@@ -102,7 +112,13 @@ public:
         return this->max_speed;
     }
 
+    float get_speed()
+    {
+        return this->speed;
+    }
+
     void draw_gui()
     {
+        DrawText(std::to_string(this->speed).c_str(), 100, 0, 20, BLACK);
     }
 };

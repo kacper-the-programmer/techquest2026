@@ -14,7 +14,7 @@ int main(void)
 
     ToggleFullscreen();
 
-    car player(1);
+    car player(0);
     map mapa(&player);
 
     while (!WindowShouldClose())
@@ -30,7 +30,7 @@ int main(void)
         DrawFPS(10, 10);
 
         DrawText("Grand Theft prawo jazdy", 30, 30, 40, BLACK);
-
+        player.draw_gui();
         EndDrawing();
     }
 
