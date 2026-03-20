@@ -4,6 +4,8 @@
 #include <string>
 #include <vector>
 
+#include "gui.hpp"
+
 class car
 {
 private:
@@ -21,8 +23,11 @@ private:
     Rectangle destination;
     Vector2 origin;
 
+    image speedmeter;
+    // image x = new image("assets/meters/speed.png", 0, 0);
+
     std::vector<Sound> sfx = {
-        LoadSound("assets/soundtrack/working_eng.wav"),
+        LoadSound("assets/sfx/working_eng.wav"),
     };
 
 public:
@@ -154,6 +159,7 @@ public:
 
     void init_gui()
     {
+        this->speedmeter = image("")
     }
 
     void draw_gui()
