@@ -17,6 +17,22 @@ int main(void)
 
     ToggleFullscreen();
 
+    std::vector<std::vector<int>> elements1 = {
+        {-2000, 2000},
+        {0000, 1000},
+        {0000, 1020},
+        {0000, 0000},
+        {3000, 3000},
+    };
+
+    std::vector<std::vector<int>> elements2 = {
+        {1000, 1000},
+        {1000, 1000},
+        {1000, 1020},
+        {1000, 1000},
+        {1000, 1000},
+    };
+
     std::vector<Texture2D> road_textures = {
         LoadTexture("assets/road/0.png"),
         LoadTexture("assets/road/1.png"),
@@ -26,16 +42,14 @@ int main(void)
     };
 
     std::vector<Texture2D> ground_textures = {
-        LoadTexture("assets/bulding/0.png"),
-        LoadTexture("assets/bulding/1.png"),
-        LoadTexture("assets/bulding/2.png"),
-        LoadTexture("assets/bulding/3.png"),
+        LoadTexture("assets/road/asfalt.png"),
+        LoadTexture("assets/road/trawa.png"),
     };
 
     car player(0, scale);
     player.init_gui();
-    layer map(&player, scale, road_textures, road_textures);
-    layer buldings(&player, scale, ground_textures, ground_textures);
+    layer map(&player, scale, road_textures, elements1);
+    layer buldings(&player, scale, ground_textures, elements2);
 
     Music music = LoadMusicStream("assets/soundtrack/song_1.wav");
     PlayMusicStream(music);
@@ -51,8 +65,8 @@ int main(void)
         player.input();
 
         ClearBackground(RAYWHITE);
+        buldings.draw();
         map.draw();
-        // buldings.draw();
         player.draw();
 
         DrawFPS(10, 10);

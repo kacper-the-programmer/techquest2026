@@ -16,29 +16,16 @@ private:
     int scale = 7;
 
     std::vector<Texture2D> background;
-    std::vector<Texture2D> foreground;
-
-    std::vector<std::vector<int>> elements = {
-        {400, 400},
-        {100, 211},
-        {100, 100},
-        {100, 100},
-    };
+    std::vector<std::vector<int>> structure;
 
 public:
-    layer(car *player, int scale, std::vector<Texture2D> background, std::vector<Texture2D> foreground)
+    layer(car *player, int scale, std::vector<Texture2D> background, std::vector<std::vector<int>> structure)
     {
 
         this->background = background;
-        this->foreground = foreground;
         this->player = player;
+        this->structure = structure;
         this->scale *= scale;
-
-        for (size_t foreground_index = 0; foreground_index < this->foreground.size(); foreground_index++)
-        {
-            this->foreground[foreground_index].width *= this->scale;
-            this->foreground[foreground_index].height *= this->scale;
-        }
 
         for (size_t background_index = 0; background_index < this->background.size(); background_index++)
         {
@@ -48,11 +35,6 @@ public:
     };
     ~layer()
     {
-        for (size_t foreground_index = 0; foreground_index < this->foreground.size(); foreground_index++)
-        {
-            UnloadTexture(this->foreground[foreground_index]);
-        }
-
         for (size_t background_index = 0; background_index < this->background.size(); background_index++)
         {
             UnloadTexture(this->background[background_index]);
@@ -80,25 +62,28 @@ public:
 
     void draw()
     {
-        for (size_t index_y = 0; index_y < elements.size(); index_y++)
+        for (size_t index_y = 0; index_y < structure.size(); index_y++)
         {
-            for (size_t index_x = 0; index_x < elements[index_y].size(); index_x++)
+            for (size_t index_x = 0; index_x < structure[index_y].size(); index_x++)
             {
-                int rotation_num = (int)(elements[index_y][index_x] % 10);
-                int background_num = (int)((elements[index_y][index_x] / 10) % 10);
-                int foreground_num = (int)(elements[index_y][index_x] / 100);
+                // <V><RRR>
+                int temp = structure[index_y][index_x];
+                int rotation = (int)(temp % 1000);
+                int flip = 1;
+                if (temp < 0)
+                {
+                    flip = -1;
+                    temp *= -1;
+                }
+                int background_num = (int)((temp / 1000));
+                Texture2D background_texture = this->background[background_num];
 
-                int rotation = rotation_num * 90;
-                Texture2D background_texture = this->background[background_num - 1];
-                Texture2D foreground_texture = this->foreground[foreground_num - 1];
-
-                Vector2 position = {
-                    foreground_texture.width * index_x + x,
-                    foreground_texture.height * index_y + y,
-                };
-
-                DrawTextureEx(background_texture, position, 0, 1, WHITE);
-                DrawTextureEx(foreground_texture, position, rotation, 1, WHITE);
+                DrawTexturePro(
+                    background_texture,
+                    {0.0f, 0.0f, (float)background_texture.width * flip, (float)background_texture.height},
+                    {(float)background_texture.width * index_x + this->x, (float)background_texture.height * index_y + y, (float)background_texture.width, (float)background_texture.height},
+                    {(float)background_texture.width / 2.0f, (float)background_texture.height / 2.0f},
+                    rotation, WHITE);
             }
         }
     }
