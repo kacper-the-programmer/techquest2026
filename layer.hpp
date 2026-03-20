@@ -76,7 +76,7 @@ public:
                     temp *= -1;
                 }
                 int background_num = (int)((temp / 1000));
-                Texture2D background_texture = this->background[background_num];
+                Texture2D background_texture = this->background[background_num - 1];
 
                 DrawTexturePro(
                     background_texture,

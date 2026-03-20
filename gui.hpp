@@ -18,6 +18,7 @@ public:
     }
     ~image()
     {
+        UnloadTexture(texture);
     }
     void change_image(std::string path)
     {
