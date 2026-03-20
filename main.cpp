@@ -1,7 +1,7 @@
 #include <raylib.h>
 
 #include "car.hpp"
-#include "map.hpp"
+#include "layer.hpp"
 
 int main(void)
 {
@@ -17,8 +17,22 @@ int main(void)
 
     ToggleFullscreen();
 
+    std::vector<Texture2D> road_textures = {
+        LoadTexture("assets/road/0.png"),
+        LoadTexture("assets/road/1.png"),
+        LoadTexture("assets/road/2.png"),
+        LoadTexture("assets/road/3.png"),
+    };
+
+    std::vector<Texture2D> ground_textures = {
+        LoadTexture("assets/road/0.png"),
+        // LoadTexture("assets/road/1.png"),
+        // LoadTexture("assets/road/2.png"),
+        // LoadTexture("assets/road/3.png"),
+    };
+
     car player(0, scale);
-    map mapa(&player, scale);
+    layer map(&player, scale, ground_textures, road_textures);
 
     Music music = LoadMusicStream("assets/soundtrack/song_1.wav");
     PlayMusicStream(music);
@@ -29,11 +43,11 @@ int main(void)
         player.loop();
 
         BeginDrawing();
-        mapa.input();
+        map.input();
         player.input();
 
         ClearBackground(RAYWHITE);
-        mapa.draw();
+        map.draw();
         player.draw();
 
         DrawFPS(10, 10);
