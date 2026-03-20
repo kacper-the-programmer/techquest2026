@@ -7,7 +7,7 @@ private:
     int height = 100;
     float x = 0;
     float y = 0;
-    int rotation;
+    int rotation = 0;
     float speed = 0;
 
     Texture2D texture;
@@ -45,7 +45,7 @@ public:
     {
         // DrawRectangle(this->x, this->y, this->width, this->height, RED);
         // DrawTexture(texture, x, y, WHITE);
-        Vector2 position = {this->x, this->y};
-        DrawTextureEx(texture, position, 0, 1, WHITE);
+        Vector2 position = {this->x - (this->width / 2), this->y};
+        DrawTextureEx(texture, position, rotation, 1, WHITE);
     }
 };
