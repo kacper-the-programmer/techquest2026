@@ -13,6 +13,7 @@ private:
     car *player;
     float x = 0.0f;
     float y = 0.0f;
+    int scale = 7;
 
     int element_width = 300;
     int element_height = 300;
@@ -31,9 +32,10 @@ private:
         {10, 10}};
 
 public:
-    map(car *player)
+    map(car *player, int scale)
     {
         this->player = player;
+        this->scale *= scale;
     };
     ~map()
     {
@@ -71,8 +73,8 @@ public:
             for (size_t index_x = 0; index_x < elements[index_y].size(); index_x++)
             {
                 Texture2D texture = (Texture2D)this->textures[(int)(elements[index_y][index_x] / 10) - 1];
-                texture.width *= 7;
-                texture.height *= 7;
+                texture.width *= this->scale;
+                texture.height *= this->scale;
                 int rotation = (int)(elements[index_y][index_x] % 10) * 90;
                 Vector2 position = {texture.width * index_x + x, texture.height * index_y + y};
                 DrawTextureEx(texture, position, rotation, 1, WHITE);
