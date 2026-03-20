@@ -3,6 +3,7 @@
 #include <raylib.h>
 
 #include <vector>
+#include <string>
 #include <iostream>
 #include "car.hpp"
 
@@ -12,13 +13,21 @@ private:
     car *player;
     float x = 0.0f;
     float y = 0.0f;
-    float speed = 10;
 
     int element_width = 300;
     int element_height = 300;
-    std::vector<std::vector<int>> elements = {
-        {1, 1},
-        {0, 0},
+
+    std::vector<Texture2D> textures = {
+        LoadTexture("assets/road/1.png"),
+        LoadTexture("assets/road/2.png"),
+        LoadTexture("assets/road/3.png"),
+        LoadTexture("assets/road/4.png"),
+    };
+
+    std::vector<std::vector<int>>
+        elements = {
+            {10, 40},
+            {20, 20},
     };
 
 public:
@@ -26,28 +35,38 @@ public:
     {
         this->player = player;
     };
-    ~map() {
-
+    ~map()
+    {
+        for (size_t i = 0; i < textures.size(); i++)
+        {
+            UnloadTexture(textures[i]);
+        }
     };
+
+    void go_forward()
+    {
+        float radians = player->get_rotation() * DEG2RAD;
+        this->x -= sinf(radians) * player->get_speed() * GetFrameTime();
+        this->y += cosf(radians) * player->get_speed() * GetFrameTime();
+    }
+
+    void go_backword()
+    {
+        float radians = player->get_rotation() * DEG2RAD;
+        this->x += sinf(radians) * player->get_speed() * GetFrameTime();
+        this->y -= cosf(radians) * player->get_speed() * GetFrameTime();
+    }
+
     void input()
     {
-        if (IsKeyDown(KEY_A))
-        {
-            // this->x += speed;
-        }
-        if (IsKeyDown(KEY_D))
-        {
-            // this->x -= speed;
-        }
         if (IsKeyDown(KEY_W))
         {
-            // this->rota
-            this->y += speed;
+            go_forward();
         }
-        if (IsKeyDown(KEY_S))
-        {
-            this->y -= speed;
-        }
+        // if (IsKeyDown(KEY_S))
+        // {
+        //     go_backword();
+        // }
     }
     void draw()
     {
@@ -55,22 +74,13 @@ public:
         {
             for (size_t index_y = 0; index_y < elements[index_x].size(); index_y++)
             {
-                switch (elements[index_y][index_x])
-                {
-                case 0:
-                    DrawRectangle(element_width * index_x + x, element_height * index_y + y, element_width, element_height, PURPLE);
-                    break;
-                case 1:
-                    DrawRectangle(element_width * index_x + x, element_height * index_y + y, element_width, element_height, GREEN);
-                default:
-                    break;
-                }
-                // std::cout << elements[x][y];
+                Texture2D texture = (Texture2D)this->textures[(int)(elements[index_y][index_x] / 10) - 1];
+                texture.width *= 7;
+                texture.height *= 7;
+                int rotation = (int)(elements[index_y][index_x] % 10) * 90;
+                Vector2 position = {texture.width * index_x + x, texture.height * index_y + y};
+                DrawTextureEx(texture, position, rotation, 1, WHITE);
             }
         }
-        // std::cout << "\n";
-        std::cout << this->player->get_rotation() << "\n";
-
-        // DrawRectangle(this->x, this->y, 100, 100, BLUE);
     }
 };
