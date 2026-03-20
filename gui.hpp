@@ -3,20 +3,23 @@
 #include <raylib.h>
 #include <string>
 
-class image
+class image_widget
 {
 private:
     std::string path;
     Texture2D texture;
-    int x;
-    int y;
+    Vector2 position;
+
+    float scale;
 
 public:
-    image(std::string path, int x, int y)
+    image_widget(std::string path, float x, float y, float scale)
     {
         change_image(path);
+        this->position = {x, y};
+        this->scale = scale;
     }
-    ~image()
+    ~image_widget()
     {
         UnloadTexture(texture);
     }
@@ -26,7 +29,7 @@ public:
     }
     void draw()
     {
-        DrawTexture(this->texture, this->x, this->y, WHITE);
+        DrawTextureEx(this->texture, this->position, 0, this->scale, WHITE);
     }
 };
 
@@ -36,8 +39,8 @@ private:
     std::string path;
     Texture2D normal_texture;
     Texture2D click_texture;
-    int x;
-    int y;
+    float x;
+    float y;
     int width;
     int height;
     float rotation;
@@ -46,12 +49,12 @@ private:
     Texture2D texture;
 
 public:
-    button(std::string path_normal, std::string path_clicked, int x, int y)
+    button(std::string path_normal, std::string path_clicked, float x, float y)
     {
         change_normal_texture(path_normal);
         change_click_texture(path_clicked);
         texture = normal_texture;
-        hitbox = {(float)this->x, (float)this->y, (float)this->x + this->texture.width, (float)this->y + this->texture.height};
+        hitbox = {this->x, this->y, (float)this->x + this->texture.width, (float)this->y + this->texture.height};
     }
     ~button()
     {
