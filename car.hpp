@@ -59,29 +59,32 @@ public:
         }
 
         if (IsKeyDown(KEY_Q))
+        {
+
             if (IsKeyDown(KEY_ONE))
             {
                 this->speed = 100;
             }
-        if (IsKeyDown(KEY_TWO))
-        {
-            this->speed = 200;
-        }
-        if (IsKeyDown(KEY_THREE))
-        {
-            this->speed = 300;
-        }
-        if (IsKeyDown(KEY_FOUR))
-        {
-            this->speed = 400;
-        }
-        if (IsKeyDown(KEY_FIVE))
-        {
-            this->speed = 500;
-        }
-        if (IsKeyDown(KEY_SIX))
-        {
-            this->speed = 600;
+            if (IsKeyDown(KEY_TWO))
+            {
+                this->speed = 200;
+            }
+            if (IsKeyDown(KEY_THREE))
+            {
+                this->speed = 300;
+            }
+            if (IsKeyDown(KEY_FOUR))
+            {
+                this->speed = 400;
+            }
+            if (IsKeyDown(KEY_FIVE))
+            {
+                this->speed = 500;
+            }
+            if (IsKeyDown(KEY_SIX))
+            {
+                this->speed = 600;
+            }
         }
     }
 
