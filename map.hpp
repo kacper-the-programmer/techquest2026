@@ -46,33 +46,29 @@ public:
     void go_forward()
     {
         float radians = player->get_rotation() * DEG2RAD;
-        this->x -= sinf(radians) * player->get_max_speed() * GetFrameTime();
-        this->y += cosf(radians) * player->get_max_speed() * GetFrameTime();
+        this->x -= sinf(radians) * player->get_speed() * GetFrameTime();
+        this->y += cosf(radians) * player->get_speed() * GetFrameTime();
     }
 
     void go_backword()
     {
         float radians = player->get_rotation() * DEG2RAD;
-        this->x += sinf(radians) * player->get_max_speed() * GetFrameTime();
-        this->y -= cosf(radians) * player->get_max_speed() * GetFrameTime();
+        this->x += sinf(radians) * player->get_speed() * GetFrameTime();
+        this->y -= cosf(radians) * player->get_speed() * GetFrameTime();
     }
 
     void input()
     {
-        if (IsKeyDown(KEY_W))
-        {
-            go_forward();
-        }
-        // if (IsKeyDown(KEY_S))
+        // if (IsKeyDown(KEY_W))
         // {
-        //     go_backword();
+        go_forward();
         // }
     }
     void draw()
     {
-        for (size_t index_x = 0; index_x < elements.size(); index_x++)
+        for (size_t index_y = 0; index_y < elements.size(); index_y++)
         {
-            for (size_t index_y = 0; index_y < elements[index_x].size(); index_y++)
+            for (size_t index_x = 0; index_x < elements[index_y].size(); index_x++)
             {
                 Texture2D texture = (Texture2D)this->textures[(int)(elements[index_y][index_x] / 10) - 1];
                 texture.width *= 7;
