@@ -85,12 +85,12 @@ public:
             for (size_t index_x = 0; index_x < elements[index_y].size(); index_x++)
             {
                 int rotation_num = (int)(elements[index_y][index_x] % 10);
-                int ground_num = (int)(elements[index_y][index_x] / 10);
-                int texture_num = (int)(elements[index_y][index_x] / 100);
+                int background_num = (int)((elements[index_y][index_x] / 10) % 10);
+                int foreground_num = (int)(elements[index_y][index_x] / 100);
 
                 int rotation = rotation_num * 90;
-                Texture2D background_texture = this->background[ground_num - 1];
-                Texture2D foreground_texture = this->foreground[texture_num - 1];
+                Texture2D background_texture = this->background[background_num - 1];
+                Texture2D foreground_texture = this->foreground[foreground_num - 1];
 
                 Vector2 position = {
                     foreground_texture.width * index_x + x,
