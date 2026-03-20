@@ -13,13 +13,13 @@ private:
     car *player;
     float x = 0.0f;
     float y = 0.0f;
-    int scale = 7;
+    float scale = 7.0f;
 
     std::vector<Texture2D> background;
     std::vector<std::vector<int>> structure;
 
 public:
-    layer(car *player, int scale, std::vector<Texture2D> background, std::vector<std::vector<int>> structure)
+    layer(car *player, float scale, std::vector<Texture2D> background, std::vector<std::vector<int>> structure)
     {
 
         this->background = background;

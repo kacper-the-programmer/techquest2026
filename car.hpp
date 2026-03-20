@@ -12,7 +12,7 @@ private:
     float width;
     float height;
     int rotation = 0;
-    int scale = 3;
+    float scale = 3;
     float max_speed = 0;
     float speed = 0;
     int speed_constant = 40;
@@ -23,7 +23,10 @@ private:
     Rectangle destination;
     Vector2 origin;
 
-    image speedmeter;
+    image_widget dashbord{"assets/gui/dashboard.png", 0, (GetScreenHeight() - (GetScreenHeight() / 4)), 1};
+    image_widget meter_holder{"assets/gui/meter_holder.png", GetScreenWidth() / 12, (GetScreenHeight() - (GetScreenHeight() / 2.5)), 9};
+
+    image_widget speedmeter{"assets/gui/meters/speed.png", 0, 0, 3};
     // image x = new image("assets/meters/speed.png", 0, 0);
 
     std::vector<Sound> sfx = {
@@ -31,7 +34,7 @@ private:
     };
 
 public:
-    car(int variant, int scale)
+    car(int variant, float scale)
     {
         std::string texture_path = "assets/car/" + std::to_string(variant) + ".png";
         texture = LoadTexture(texture_path.c_str());
@@ -159,12 +162,17 @@ public:
 
     void init_gui()
     {
-        this->speedmeter = image("")
+        // this->speedmeter = new image_widget();
     }
 
     void draw_gui()
     {
         DrawText(std::to_string(this->speed).c_str(), 100, 0, 20, BLACK);
         DrawText(std::to_string(this->max_speed / 100).c_str(), 400, 0, 20, BLACK);
+
+        // this.speedmeter.draw();
+        // this->speedmeter->draw();
+        this->dashbord.draw();
+        this->meter_holder.draw();
     }
 };
