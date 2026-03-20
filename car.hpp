@@ -23,8 +23,8 @@ private:
     Rectangle destination;
     Vector2 origin;
 
-    image_widget dashbord{"assets/gui/dashboard.png", 0, (GetScreenHeight() - (GetScreenHeight() / 4)), 1};
-    image_widget meter_holder{"assets/gui/meter_holder.png", GetScreenWidth() / 12, (GetScreenHeight() - (GetScreenHeight() / 2.5)), 9};
+    image_widget dashbord{"assets/gui/dashboard.png", 0, static_cast<float>(GetScreenHeight() - (GetScreenHeight() / 4)), 1};
+    image_widget meter_holder{"assets/gui/meter_holder.png", static_cast<float>(GetScreenWidth() / 12), static_cast<float>(GetScreenHeight() - (GetScreenHeight() / 2.3)), 9};
 
     image_widget speedmeter{"assets/gui/meters/speed.png", 0, 0, 3};
     // image x = new image("assets/meters/speed.png", 0, 0);
@@ -49,8 +49,8 @@ public:
 
     void refresh_scale()
     {
-        texture.width *= scale;
-        texture.height *= scale;
+        texture.width *= (int)scale;
+        texture.height *= (int)scale;
 
         source = {0.0f, 0.0f, (float)texture.width, (float)texture.height};
         destination = {GetScreenWidth() / 2.0f, GetScreenHeight() / 2.0f, (float)texture.width, (float)texture.height};
@@ -170,9 +170,9 @@ public:
         DrawText(std::to_string(this->speed).c_str(), 100, 0, 20, BLACK);
         DrawText(std::to_string(this->max_speed / 100).c_str(), 400, 0, 20, BLACK);
 
-        // this.speedmeter.draw();
         // this->speedmeter->draw();
         this->dashbord.draw();
         this->meter_holder.draw();
+        this->speedmeter.draw();
     }
 };

@@ -29,8 +29,8 @@ public:
 
         for (size_t background_index = 0; background_index < this->background.size(); background_index++)
         {
-            this->background[background_index].width *= this->scale;
-            this->background[background_index].height *= this->scale;
+            this->background[background_index].width *= (int)this->scale;
+            this->background[background_index].height *= (int)this->scale;
         }
     };
     ~layer()
