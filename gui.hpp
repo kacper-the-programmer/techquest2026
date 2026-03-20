@@ -16,7 +16,7 @@ public:
     image_widget(std::string path, float x, float y, float scale)
     {
         change_image(path);
-        this->position = {x, y};
+        change_position(x, y);
         this->scale = scale;
     }
     ~image_widget()
@@ -26,6 +26,14 @@ public:
     void change_image(std::string path)
     {
         this->texture = LoadTexture(path.c_str());
+    }
+    void change_position(float x, float y)
+    {
+        this->position = {x, y};
+    }
+    void change_y(float value)
+    {
+        this->position.y = value;
     }
     void draw()
     {
