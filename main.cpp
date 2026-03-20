@@ -18,9 +18,10 @@ int main(void)
     ToggleFullscreen();
 
     std::vector<std::vector<int>> elements1 = {
-        {-2000, 2000},
+        {-2000, 2000, 1090},
         {0000, 1000},
         {0000, 1020},
+        {},
         {0000, 0000},
         {3000, 3000},
     };
@@ -51,7 +52,7 @@ int main(void)
     layer map(&player, scale, road_textures, elements1);
     layer buldings(&player, scale, ground_textures, elements2);
 
-    Music music = LoadMusicStream("assets/soundtrack/song_1.wav");
+    Music music = LoadMusicStream("assets/sfx/song_1.wav");
     PlayMusicStream(music);
 
     while (!WindowShouldClose())

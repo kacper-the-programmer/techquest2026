@@ -22,7 +22,7 @@ private:
     Vector2 origin;
 
     std::vector<Sound> sfx = {
-        LoadSound("assets/soundtrack/working_eng.wav"),
+        LoadSound("assets/sfx/working_eng.wav"),
     };
 
 public:
