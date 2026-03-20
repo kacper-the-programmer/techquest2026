@@ -23,11 +23,15 @@ private:
     Rectangle destination;
     Vector2 origin;
 
-    image_widget dashbord{"assets/gui/dashboard.png", 0, static_cast<float>(GetScreenHeight() - (GetScreenHeight() / 4)), 1};
+    image_widget dashbord{"assets/gui/dashboard.png", 0, static_cast<float>(GetScreenHeight() - (GetScreenHeight() / 4)), 15};
     image_widget meter_holder{"assets/gui/meter_holder.png", static_cast<float>(GetScreenWidth() / 12), static_cast<float>(GetScreenHeight() - (GetScreenHeight() / 2.3)), 9};
 
-    image_widget speedmeter{"assets/gui/meters/speed.png", 0, 0, 3};
-    // image x = new image("assets/meters/speed.png", 0, 0);
+    image_widget speedmeter{"assets/gui/meters/speed.png", static_cast<float>(GetScreenWidth() / 13.5), static_cast<float>(GetScreenHeight() - (GetScreenHeight() / 3.15)), 3};
+    image_widget grademeter{"assets/gui/meters/grade.png", static_cast<float>(GetScreenWidth() / 4.8), static_cast<float>(GetScreenHeight() - (GetScreenHeight() / 3.15)), 3};
+
+    image_widget pedal_clutch{"assets/gui/pedals/clutch_0.png", 0, 0, 3};
+    image_widget pedal_break{"assets/gui/pedals/break_0.png", 100, 0, 3};
+    image_widget pedal_gas{"assets/gui/pedals/gas_0.png", 250, 0, 3};
 
     std::vector<Sound> sfx = {
         LoadSound("assets/sfx/working_eng.wav"),
@@ -75,10 +79,20 @@ public:
         if (IsKeyDown(KEY_W) && (this->speed <= this->max_speed && this->gear > 0 || this->speed >= this->max_speed && this->gear == -1))
         {
             this->speed += this->speed_constant * GetFrameTime();
+            this->pedal_gas.change_image("assets/gui/pedals/gas_1.png");
+        }
+        else
+        {
+            this->pedal_gas.change_image("assets/gui/pedals/gas_0.png");
         }
         if (IsKeyDown(KEY_S) && (this->speed >= 0 && this->gear > 0 || this->speed <= 0 && this->gear == -1))
         {
             this->speed -= this->speed_constant * 3 * GetFrameTime();
+            this->pedal_break.change_image("assets/gui/pedals/break_1.png");
+        }
+        else
+        {
+            this->pedal_break.change_image("assets/gui/pedals/break_0.png");
         }
         if (!IsKeyDown(KEY_W) && this->speed > 0)
         {
@@ -96,6 +110,7 @@ public:
 
         if (IsKeyDown(KEY_Q) && !IsKeyDown(KEY_W))
         {
+            this->pedal_clutch.change_image("assets/gui/pedals/clutch_1.png");
 
             if (IsKeyDown(KEY_ONE))
             {
@@ -139,6 +154,10 @@ public:
             }
             this->gear = this->max_speed / 100;
         }
+        else
+        {
+            this->pedal_clutch.change_image("assets/gui/pedals/clutch_0.png");
+        }
     }
 
     void draw()
@@ -167,12 +186,17 @@ public:
 
     void draw_gui()
     {
-        DrawText(std::to_string(this->speed).c_str(), 100, 0, 20, BLACK);
-        DrawText(std::to_string(this->max_speed / 100).c_str(), 400, 0, 20, BLACK);
+        // DrawText(std::to_string(this->speed).c_str(), 100, 0, 20, BLACK);
+        // DrawText(std::to_string(this->max_speed / 100).c_str(), 400, 0, 20, BLACK);
 
         // this->speedmeter->draw();
         this->dashbord.draw();
         this->meter_holder.draw();
         this->speedmeter.draw();
+        this->grademeter.draw();
+
+        this->pedal_clutch.draw();
+        this->pedal_break.draw();
+        this->pedal_gas.draw();
     }
 };
