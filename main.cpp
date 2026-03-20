@@ -22,6 +22,7 @@ int main(void)
         LoadTexture("assets/road/1.png"),
         LoadTexture("assets/road/2.png"),
         LoadTexture("assets/road/3.png"),
+        // LoadTexture("assets/nothing.png"),
     };
 
     std::vector<Texture2D> ground_textures = {
@@ -51,7 +52,7 @@ int main(void)
 
         ClearBackground(RAYWHITE);
         map.draw();
-        buldings.draw();
+        // buldings.draw();
         player.draw();
 
         DrawFPS(10, 10);
