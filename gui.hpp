@@ -8,6 +8,8 @@ class image
 private:
     std::string path;
     Texture2D texture;
+    int x;
+    int y;
 
 public:
     image(std::string path, int x, int y)
@@ -23,6 +25,6 @@ public:
     }
     void draw()
     {
-        // DrawTexture(texture);
+        DrawTexture(this->texture, this->x, this->y, WHITE);
     }
 };

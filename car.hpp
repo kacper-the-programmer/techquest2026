@@ -72,14 +72,18 @@ public:
         {
             this->speed -= this->speed_constant * 3 * GetFrameTime();
         }
+        if (!IsKeyDown(KEY_W) && this->speed > 0)
+        {
+            this->speed -= this->speed_constant * 0.5 * GetFrameTime();
+        }
 
         if (IsKeyDown(KEY_A) && (this->speed > 1 || this->speed < -1))
         {
-            this->rotation--;
+            this->rotation -= 20 * speed_constant / 10 * GetFrameTime();
         }
         if (IsKeyDown(KEY_D) && (this->speed > 1 || this->speed < -1))
         {
-            this->rotation++;
+            this->rotation += 20 * speed_constant / 10 * GetFrameTime();
         }
 
         if (IsKeyDown(KEY_Q) && !IsKeyDown(KEY_W))
@@ -146,6 +150,10 @@ public:
     float get_speed()
     {
         return this->speed;
+    }
+
+    void init_gui()
+    {
     }
 
     void draw_gui()
