@@ -1,51 +1,64 @@
+#pragma once
+
 #include <raylib.h>
 
 class car
 {
 private:
-    int width = 50;
-    int height = 100;
-    float x = 0;
-    float y = 0;
+    float width;
+    float height;
     int rotation = 0;
-    float speed = 0;
+    int scale = 3;
 
     Texture2D texture;
+    Rectangle source;
+    Rectangle destination;
+    Vector2 origin;
 
 public:
     car()
     {
-        texture = LoadTexture("assets/car.png");
+        texture = LoadTexture("assets/auto1.png");
+        this->refresh_scale();
     }
     ~car()
     {
         UnloadTexture(texture);
     }
+    void refresh_scale()
+    {
+        texture.width *= scale;
+        texture.height *= scale;
+
+        source = {0.0f, 0.0f, (float)texture.width, (float)texture.height};
+        destination = {GetScreenWidth() / 2.0f, GetScreenHeight() / 2.0f, (float)texture.width, (float)texture.height};
+
+        origin = {(float)texture.width / 2.0f, (float)texture.height / 2.0f};
+    }
     void input()
     {
         if (IsKeyDown(KEY_A))
         {
-            this->x--;
+            this->rotation--;
         }
         if (IsKeyDown(KEY_D))
         {
-            this->x++;
+            this->rotation++;
         }
         if (IsKeyDown(KEY_W))
         {
-            this->y--;
         }
         if (IsKeyDown(KEY_S))
         {
-            this->y++;
         }
     }
 
     void draw()
     {
-        // DrawRectangle(this->x, this->y, this->width, this->height, RED);
-        // DrawTexture(texture, x, y, WHITE);
-        Vector2 position = {this->x - (this->width / 2), this->y};
-        DrawTextureEx(texture, position, rotation, 1, WHITE);
+        DrawTexturePro(texture, source, destination, origin, (float)rotation, WHITE);
+    }
+    int get_rotation()
+    {
+        return this->rotation;
     }
 };
