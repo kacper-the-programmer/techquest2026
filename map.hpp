@@ -46,15 +46,15 @@ public:
     void go_forward()
     {
         float radians = player->get_rotation() * DEG2RAD;
-        this->x -= sinf(radians) * player->get_speed() * GetFrameTime();
-        this->y += cosf(radians) * player->get_speed() * GetFrameTime();
+        this->x -= sinf(radians) * player->get_max_speed() * GetFrameTime();
+        this->y += cosf(radians) * player->get_max_speed() * GetFrameTime();
     }
 
     void go_backword()
     {
         float radians = player->get_rotation() * DEG2RAD;
-        this->x += sinf(radians) * player->get_speed() * GetFrameTime();
-        this->y -= cosf(radians) * player->get_speed() * GetFrameTime();
+        this->x += sinf(radians) * player->get_max_speed() * GetFrameTime();
+        this->y -= cosf(radians) * player->get_max_speed() * GetFrameTime();
     }
 
     void input()

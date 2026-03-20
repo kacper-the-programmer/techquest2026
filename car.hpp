@@ -10,7 +10,7 @@ private:
     float height;
     int rotation = 0;
     int scale = 3;
-    float speed = 200;
+    float max_speed = 200;
 
     Texture2D texture;
     Rectangle source;
@@ -41,53 +41,49 @@ public:
 
     void input()
     {
-        if (IsKeyDown(KEY_A))
+        if (IsKeyDown(KEY_W) && IsKeyDown(KEY_A))
         {
-            int current_rotation = this->rotation;
-            if (this->rotation > current_rotation - 40 && this->rotation < current_rotation + 40)
-            {
-                this->rotation--;
-            }
+            this->rotation--;
         }
-        if (IsKeyDown(KEY_D))
+        if (IsKeyDown(KEY_W) && IsKeyDown(KEY_D))
         {
-            int current_rotation = this->rotation;
-            if (current_rotation)
-            {
-                this->rotation++;
-            }
+            this->rotation++;
         }
 
         if (IsKeyDown(KEY_Q))
         {
 
-            if (IsKeyDown(KEY_ONE))
+            if (IsKeyPressed(KEY_ONE))
             {
-                this->speed = 100;
+                this->max_speed = 100;
             }
-            if (IsKeyDown(KEY_TWO))
+            if (IsKeyPressed(KEY_TWO))
             {
-                this->speed = 200;
+                this->max_speed = 200;
             }
-            if (IsKeyDown(KEY_THREE))
+            if (IsKeyPressed(KEY_THREE))
             {
-                this->speed = 300;
+                this->max_speed = 300;
             }
-            if (IsKeyDown(KEY_FOUR))
+            if (IsKeyPressed(KEY_FOUR))
             {
-                this->speed = 400;
+                this->max_speed = 400;
             }
-            if (IsKeyDown(KEY_FIVE))
+            if (IsKeyPressed(KEY_FIVE))
             {
-                this->speed = 500;
+                this->max_speed = 500;
             }
-            if (IsKeyDown(KEY_SIX))
+            if (IsKeyPressed(KEY_SIX))
             {
-                this->speed = 600;
+                this->max_speed = 600;
             }
-            if (IsKeyDown(KEY_ZERO))
+            if (IsKeyPressed(KEY_ZERO))
             {
-                this->speed = -100;
+                this->max_speed = 0;
+            }
+            if (IsKeyPressed(KEY_MINUS))
+            {
+                this->max_speed = -100;
             }
         }
     }
@@ -101,9 +97,9 @@ public:
     {
         return this->rotation;
     }
-    float get_speed()
+    float get_max_speed()
     {
-        return this->speed;
+        return this->max_speed;
     }
 
     void draw_gui()
