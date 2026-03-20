@@ -85,6 +85,10 @@ public:
             {
                 this->speed = 600;
             }
+            if (IsKeyDown(KEY_ZERO))
+            {
+                this->speed = -100;
+            }
         }
     }
 
