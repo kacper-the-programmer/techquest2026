@@ -24,11 +24,11 @@ private:
         LoadTexture("assets/road/3.png"),
     };
 
-    std::vector<std::vector<int>>
-        elements = {
-            {10, 40},
-            {20, 20},
-    };
+    std::vector<std::vector<int>> elements = {
+        {40, 40},
+        {10, 20},
+        {10, 10},
+        {10, 10}};
 
 public:
     map(car *player)
