@@ -35,6 +35,10 @@ public:
     {
         this->position.y = value;
     }
+    float get_center_x()
+    {
+        return this->position.x + (this->texture.width / 2);
+    }
     void draw()
     {
         DrawTextureEx(this->texture, this->position, 0, this->scale, WHITE);
@@ -97,5 +101,68 @@ public:
     void draw()
     {
         DrawTexture(this->texture, this->x, this->y, WHITE);
+    }
+};
+
+class advance_image_widget
+{
+private:
+    Texture2D texture;
+    float scale;
+    float rotation;
+    float x;
+    float y;
+
+public:
+    advance_image_widget(std::string path, float x, float y, float scale, float rotation)
+    {
+        this->texture = LoadTexture(path.c_str());
+        change_rotation(rotation);
+        this->scale = scale;
+        this->x = x;
+        this->y = y;
+    }
+    ~advance_image_widget()
+    {
+        UnloadTexture(this->texture);
+    }
+
+    void change_rotation(float rotation)
+    {
+        this->rotation = rotation;
+    }
+    float get_rotation()
+    {
+        return this->rotation;
+    }
+
+    void draw()
+    {
+        float scaledW = texture.width * this->scale;
+        float scaledH = texture.height * this->scale;
+
+        Vector2 origin = {
+            scaledW / 2.0f,
+            scaledH / 2.0f};
+
+        Vector2 position = {
+            GetScreenWidth() / 2.0f,
+            GetScreenHeight() / 2.0f};
+
+        DrawTexturePro(
+            this->texture,
+            {
+                0.0f,
+                0.0f,
+                (float)texture.width,
+                (float)texture.height,
+            },
+            {this->x,
+             this->y,
+             scaledW,
+             scaledH},
+            origin,
+            this->rotation,
+            WHITE);
     }
 };

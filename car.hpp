@@ -23,58 +23,6 @@ private:
     Rectangle destination;
     Vector2 origin;
 
-    image_widget dashbord{
-        "assets/gui/dashboard.png",
-        0,
-        static_cast<float>(GetScreenHeight() / 1.35),
-        15,
-    };
-    image_widget meter_holder{
-        "assets/gui/meter_holder.png",
-        static_cast<float>(GetScreenWidth() / 11.8),
-        static_cast<float>(GetScreenHeight() / 1.8),
-        9,
-    };
-
-    image_widget speedmeter{
-        "assets/gui/meters/speed.png",
-        static_cast<float>(GetScreenWidth() / 2),
-        static_cast<float>(GetScreenHeight() / 2),
-        3,
-    };
-    image_widget grademeter{
-        "assets/gui/meters/grade.png",
-        static_cast<float>(GetScreenWidth() / 4.8),
-        static_cast<float>(GetScreenHeight() - (GetScreenHeight() / 3.15)),
-        3,
-    };
-
-    image_widget key_in{
-        "assets/gui/key/in_0.png",
-        static_cast<float>(GetScreenWidth() / 3),
-        static_cast<float>(GetScreenHeight() - (GetScreenHeight() / 5.9)),
-        4,
-    };
-
-    image_widget pedal_clutch{
-        "assets/gui/pedals/clutch_0.png",
-        50,
-        0,
-        3,
-    };
-    image_widget pedal_break{
-        "assets/gui/pedals/break_0.png",
-        200,
-        0,
-        3,
-    };
-    image_widget pedal_gas{
-        "assets/gui/pedals/gas_0.png",
-        350,
-        0,
-        3,
-    };
-
     std::vector<Sound> sfx = {
         LoadSound("assets/sfx/working_eng.wav"),
     };
@@ -85,26 +33,13 @@ public:
         std::string texture_path = "assets/car/" + std::to_string(variant) + ".png";
         texture = LoadTexture(texture_path.c_str());
         this->scale *= scale;
-
-        this->refresh_scale();
     }
     ~car()
     {
         UnloadTexture(texture);
     }
 
-    void refresh_scale()
-    {
-        texture.width *= (int)scale;
-        texture.height *= (int)scale;
-
-        source = {0.0f, 0.0f, (float)texture.width, (float)texture.height};
-        destination = {GetScreenWidth() / 2.0f, GetScreenHeight() / 2.0f, (float)texture.width, (float)texture.height};
-
-        origin = {(float)texture.width / 2.0f, (float)texture.height / 2.0f};
-    }
-
-    void loop()
+    void logic()
     {
         if (!IsSoundPlaying(sfx[0]))
         {
@@ -121,25 +56,13 @@ public:
         if (IsKeyDown(KEY_W) && (this->speed <= this->max_speed && this->gear > 0 || this->speed >= this->max_speed && this->gear == -1))
         {
             this->speed += this->speed_constant * GetFrameTime();
-            this->pedal_gas.change_image("assets/gui/pedals/gas_1.png");
-            this->pedal_break.change_y(-50);
         }
-        else
-        {
-            this->pedal_gas.change_image("assets/gui/pedals/gas_0.png");
-            this->pedal_break.change_y(0);
-        }
+
         if (IsKeyDown(KEY_S) && (this->speed >= 0 && this->gear > 0 || this->speed <= 0 && this->gear == -1))
         {
             this->speed -= this->speed_constant * 3 * GetFrameTime();
-            this->pedal_break.change_image("assets/gui/pedals/break_1.png");
-            this->pedal_break.change_y(-50);
         }
-        else
-        {
-            this->pedal_break.change_image("assets/gui/pedals/break_0.png");
-            this->pedal_break.change_y(0);
-        }
+
         if (!IsKeyDown(KEY_W) && this->speed > 0)
         {
             this->speed -= this->speed_constant * 0.5 * GetFrameTime();
@@ -156,8 +79,6 @@ public:
 
         if (IsKeyDown(KEY_Q) && !IsKeyDown(KEY_W))
         {
-            this->pedal_clutch.change_image("assets/gui/pedals/clutch_1.png");
-            this->pedal_clutch.change_y(-50);
 
             if (IsKeyDown(KEY_ONE))
             {
@@ -201,16 +122,36 @@ public:
             }
             this->gear = this->max_speed / 100;
         }
-        else
-        {
-            this->pedal_clutch.change_image("assets/gui/pedals/clutch_0.png");
-            this->pedal_clutch.change_y(0);
-        }
     }
 
     void draw()
     {
-        DrawTexturePro(this->texture, this->source, this->destination, this->origin, (float)this->rotation, WHITE);
+        float scaledW = texture.width * this->scale;
+        float scaledH = texture.height * this->scale;
+
+        Vector2 origin = {
+            scaledW / 2.0f,
+            scaledH / 2.0f};
+
+        Vector2 position = {
+            GetScreenWidth() / 2.0f,
+            GetScreenHeight() / 2.0f};
+
+        DrawTexturePro(
+            this->texture,
+            {
+                0.0f,
+                0.0f,
+                (float)texture.width,
+                (float)texture.height,
+            },
+            {position.x,
+             position.y,
+             scaledW,
+             scaledH},
+            origin,
+            (float)this->rotation,
+            WHITE);
     }
 
     int get_rotation()
@@ -225,26 +166,5 @@ public:
     float get_speed()
     {
         return this->speed;
-    }
-
-    void init_gui()
-    {
-        // this->speedmeter = new image_widget();
-    }
-
-    void draw_gui()
-    {
-        // DrawText(std::to_string(this->speed).c_str(), 100, 0, 20, BLACK);
-        // DrawText(std::to_string(this->max_speed / 100).c_str(), 400, 0, 20, BLACK);
-
-        // this->speedmeter->draw();
-        this->dashbord.draw();
-        this->meter_holder.draw();
-        this->speedmeter.draw();
-        this->grademeter.draw();
-        this->key_in.draw();
-        this->pedal_clutch.draw();
-        this->pedal_break.draw();
-        this->pedal_gas.draw();
     }
 };

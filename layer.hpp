@@ -1,10 +1,9 @@
 #pragma once
 
 #include <raylib.h>
-
 #include <vector>
-#include <string>
-#include <iostream>
+#include <cmath>
+
 #include "car.hpp"
 
 class layer
@@ -15,75 +14,98 @@ private:
     float y = 0.0f;
     float scale = 7.0f;
 
-    std::vector<Texture2D> background;
-    std::vector<std::vector<int>> structure;
+    std::vector<Texture2D> *background;
+    std::vector<std::vector<int>> *structure;
 
 public:
-    layer(car *player, float scale, std::vector<Texture2D> background, std::vector<std::vector<int>> structure)
+    layer(car *player, float scale,
+          std::vector<Texture2D> *background,
+          std::vector<std::vector<int>> *structure)
     {
-
-        this->background = background;
         this->player = player;
+        this->background = background;
         this->structure = structure;
         this->scale *= scale;
-
-        for (size_t background_index = 0; background_index < this->background.size(); background_index++)
-        {
-            this->background[background_index].width *= (int)this->scale;
-            this->background[background_index].height *= (int)this->scale;
-        }
-    };
-    ~layer()
-    {
-        for (size_t background_index = 0; background_index < this->background.size(); background_index++)
-        {
-            UnloadTexture(this->background[background_index]);
-        }
-    };
+    }
 
     void go_forward()
     {
         float radians = player->get_rotation() * DEG2RAD;
-        this->x -= sinf(radians) * player->get_speed() * GetFrameTime();
-        this->y += cosf(radians) * player->get_speed() * GetFrameTime();
+        float speed = player->get_speed();
+
+        this->x -= sinf(radians) * speed * GetFrameTime();
+        this->y += cosf(radians) * speed * GetFrameTime();
     }
 
-    void go_backword()
+    void go_backward()
     {
         float radians = player->get_rotation() * DEG2RAD;
-        this->x += sinf(radians) * player->get_speed() * GetFrameTime();
-        this->y -= cosf(radians) * player->get_speed() * GetFrameTime();
+        float speed = player->get_speed();
+
+        this->x += sinf(radians) * speed * GetFrameTime();
+        this->y -= cosf(radians) * speed * GetFrameTime();
     }
 
     void input()
     {
-        go_forward();
+        float speed = player->get_speed();
+
+        if (speed > 0)
+            go_forward();
+        else if (speed < 0)
+            go_backward();
     }
 
     void draw()
     {
-        for (size_t index_y = 0; index_y < structure.size(); index_y++)
+        if (!structure || !background)
+            return;
+
+        for (size_t y_i = 0; y_i < structure->size(); y_i++)
         {
-            for (size_t index_x = 0; index_x < structure[index_y].size(); index_x++)
+            const auto &row = (*structure)[y_i];
+
+            for (size_t x_i = 0; x_i < row.size(); x_i++)
             {
-                // <V><RRR>
-                int temp = structure[index_y][index_x];
-                int rotation = (int)(temp % 1000);
+                int temp = row[x_i];
+                if (temp == 0)
+                    continue;
+
                 int flip = 1;
                 if (temp < 0)
                 {
                     flip = -1;
                     temp *= -1;
                 }
-                int background_num = (int)((temp / 1000));
-                Texture2D background_texture = this->background[background_num - 1];
 
-                DrawTexturePro(
-                    background_texture,
-                    {0.0f, 0.0f, (float)background_texture.width * flip, (float)background_texture.height},
-                    {(float)background_texture.width * index_x + this->x, (float)background_texture.height * index_y + y, (float)background_texture.width, (float)background_texture.height},
-                    {(float)background_texture.width / 2.0f, (float)background_texture.height / 2.0f},
-                    rotation, WHITE);
+                int rotation = temp % 1000;
+                int background_num = temp / 1000;
+
+                if (background_num <= 0 || background_num > (int)background->size())
+                    continue;
+
+                Texture2D &tex = (*background)[background_num - 1];
+
+                float posX = tex.width * x_i * scale + x;
+                float posY = tex.height * y_i * scale + y;
+
+                Rectangle src = {
+                    (flip == -1 ? (float)tex.width : 0.0f),
+                    0.0f,
+                    (float)tex.width * flip,
+                    (float)tex.height};
+
+                Rectangle dest = {
+                    posX + tex.width * scale / 2.0f,
+                    posY + tex.height * scale / 2.0f,
+                    tex.width * scale,
+                    tex.height * scale};
+
+                Vector2 origin = {
+                    tex.width * scale / 2.0f,
+                    tex.height * scale / 2.0f};
+
+                DrawTexturePro(tex, src, dest, origin, rotation, WHITE);
             }
         }
     }
