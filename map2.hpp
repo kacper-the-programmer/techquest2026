@@ -9,7 +9,8 @@ void map2(void)
 {
 
     int scale = 1;
-
+    // aaaaaa
+    std::vector<std::vector<int>> ground = {};
     // Roads
     std::vector<std::vector<int>> elements1 = {
         {0000, 3270, 1090, 1090, 1090, 3000, 0000, 0000, 3270, 2090, 1090, 1090, 3000},
@@ -22,11 +23,11 @@ void map2(void)
 
     // Buildings
     std::vector<std::vector<int>> buildings01 = {
-        {0000, 0000, 0000, 0000, 0000, 0000, 5000, 6000, 0000, 0000, 0000, 0000, 0000},
-        {0000, 0000, 0000, 0000, 0000, 0000, 7000, 8000, 0000, 0000, 0000, 0000, 0000},
+        {0000, 0000, 0000, 0000, 0000, 0000, 15000, 16000, 0000, 0000, 0000, 0000, 0000},
+        {0000, 0000, 0000, 0000, 0000, 0000, 17000, 18000, 0000, 0000, 0000, 0000, 0000},
         {0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000},
-        {0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 2270, 4270, 0000},
-        {0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 1270, 3270, 0000}};
+        {0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 12270, 14270, 0000},
+        {0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 11270, 13270, 0000}};
     std::vector<std::vector<int>> buildings23 = {
         {0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000},
         {0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000}};
@@ -34,15 +35,15 @@ void map2(void)
         {0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000},
         {0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000},
         {0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000},
-        {0000, 0000, 0000, 0000, 0000, 1000, 2000, 0000, 0000, 0000, 0000, 0000, 0000},
-        {0000, 0000, 0000, 0000, 0000, 3000, 4000, 0000, 0000, 0000, 0000, 0000, 0000},
+        {0000, 0000, 0000, 0000, 0000, 11000, 12000, 0000, 0000, 0000, 0000, 0000, 0000},
+        {0000, 0000, 0000, 0000, 0000, 13000, 14000, 0000, 0000, 0000, 0000, 0000, 0000},
         {0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000},
-        {0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 5000, 6000},
-        {0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 7000, 8000}};
+        {0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 15000, 16000},
+        {0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 17000, 18000}};
     std::vector<std::vector<int>> buildings6 = {
         {0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000},
-        {0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 1000, 2000, 0000},
-        {0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 3000, 4000, 0000}};
+        {0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 11000, 12000, 0000},
+        {0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 13000, 14000, 0000}};
 
     // Roundabouts
     std::vector<std::vector<int>> rdb = {
@@ -141,7 +142,16 @@ void map2(void)
         LoadTexture("assets/road/asphalt_parking_exit1.png"),
         LoadTexture("assets/road/asphalt_parking_exit2.png")};
 
+    for (size_t i = 0; i < elements1.size(); i++)
+    {
+        for (size_t x = 0; x < elements1[i].size(); x++)
+        {
+            ground[x][i] = 02000;
+        }
+    }
+
     car player(0, scale);
+    layer maaaaap(&player, scale, &ground_textures, &ground);
     layer map(&player, scale, &road_textures, &elements1);
     layer buldings01(&player, scale, &building_textures01, &buildings01);
     // layer buldings23(&player, scale, building_textures23, buildings23);
@@ -149,39 +159,100 @@ void map2(void)
     layer buldings6(&player, scale, &building_textures6, &buildings6);
     layer roundabouts(&player, scale, &roundabout_textures, &rdb);
     layer parking_place(&player, scale, &parking_textures, &parking_pos);
-
+    car_ui ui(&player);
+    ui.init();
     Music music = LoadMusicStream("assets/sfx/song_1.wav");
     PlayMusicStream(music);
+
+    // while (!WindowShouldClose())
+    // {
+    //     UpdateMusicStream(music);
+    //     // player.loop();
+
+    //     BeginDrawing();
+    //     map.input();
+    //     buldings01.input();
+    //     // buldings23.input();
+    //     buldings45.input();
+    //     buldings6.input();
+    //     roundabouts.input();
+    //     parking_place.input();
+    //     player.input();
+
+    //     ClearBackground(GREEN);
+    //     buldings01.draw();
+    //     // buldings23.draw();
+    //     buldings45.draw();
+    //     buldings6.draw();
+    //     roundabouts.draw();
+    //     parking_place.draw();
+    //     map.draw();
+    //     player.draw();
+
+    //     DrawFPS(10, 10);
+
+    //     DrawText("Grand Theft prawo jazdy", 30, 30, 40, BLACK);
+    //     // player.draw_gui();
+    //     EndDrawing();
+    // }
+
+    std::vector<layer *> all_layers = {&maaaaap, &map, &buldings01, &buldings45, &buldings6, &roundabouts, &parking_place};
 
     while (!WindowShouldClose())
     {
         UpdateMusicStream(music);
-        // player.loop();
+
+        // 1. Obliczamy pożądany ruch na podstawie prędkości auta
+        float radians = player.get_rotation() * DEG2RAD;
+        float speed = player.get_speed();
+        float frameSpeed = speed * GetFrameTime();
+
+        float moveX = 0, moveY = 0;
+        if (speed != 0)
+        {
+            // Odwracamy wektor ruchu (bo to mapa się przesuwa, nie auto)
+            moveX = -sinf(radians) * frameSpeed;
+            moveY = cosf(radians) * frameSpeed;
+        }
+
+        // 2. Sprawdzamy kolizję we WSZYSTKICH warstwach
+        bool collision_detected = false;
+        for (auto l : all_layers)
+        {
+            // Sprawdzamy, czy JEGO warstwa po przesunięciu o moveX/moveY dotknie auta
+            if (l->has_collision_at(l->get_x() + moveX, l->get_y() + moveY))
+            {
+                collision_detected = true;
+                break;
+            }
+        }
+
+        // 3. Aplikujemy ruch tylko jeśli nie ma kolizji
+        if (!collision_detected)
+        {
+            for (auto l : all_layers)
+            {
+                l->move(moveX, moveY);
+            }
+        }
+        else
+        {
+            // Opcjonalnie: wyzeruj prędkość auta przy hicie
+            // player.set_speed(0);
+        }
+
+        // 4. Reszta logiki i rysowanie
+        player.input();
+        player.logic();
+        ui.input();
+        ui.logic();
 
         BeginDrawing();
-        map.input();
-        buldings01.input();
-        // buldings23.input();
-        buldings45.input();
-        buldings6.input();
-        roundabouts.input();
-        parking_place.input();
-        player.input();
-
         ClearBackground(GREEN);
-        buldings01.draw();
-        // buldings23.draw();
-        buldings45.draw();
-        buldings6.draw();
-        roundabouts.draw();
-        parking_place.draw();
-        map.draw();
+        for (auto l : all_layers)
+            l->draw();
         player.draw();
-
-        DrawFPS(10, 10);
-
-        DrawText("Grand Theft prawo jazdy", 30, 30, 40, BLACK);
-        // player.draw_gui();
+        ui.draw();
         EndDrawing();
     }
 

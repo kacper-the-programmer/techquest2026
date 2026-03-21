@@ -19,7 +19,7 @@ void map1(void)
     // SetTargetFPS(60);
 
     std::vector<std::vector<int>> elements1 = {
-        {-3000, 3000, 2090},
+        {-3000, 3000, 12090},
         {1000, 2000},
         {1000, 2020},
         {},
@@ -28,7 +28,7 @@ void map1(void)
     };
 
     std::vector<std::vector<int>> elements2 = {
-        {2000, 2000},
+        {2000, 2000, 14000},
         {2000, 1000},
         {2000, 2000},
         {2000, 2020},
@@ -42,12 +42,13 @@ void map1(void)
         LoadTexture("assets/road/3.png"),
         LoadTexture("assets/road/4.png"),
         LoadTexture("assets/road/5.png")
-        // LoadTexture("assets/nothing.png"),
+
     };
 
     std::vector<Texture2D> ground_textures = {
         LoadTexture("assets/road/background/asphalt.png"),
         LoadTexture("assets/road/background/grass.png"),
+        LoadTexture("assets/nothing.png"),
     };
 
     car player(0, scale);
@@ -66,8 +67,8 @@ void map1(void)
         ui.logic();
         BeginDrawing();
         ui.input();
-        map.input();
-        buldings.input();
+        // map.input();
+        // buldings.input();
 
         player.input();
 
@@ -79,7 +80,7 @@ void map1(void)
 
         DrawFPS(10, 10);
 
-        DrawText("Grand Theft prawo jazdy", 30, 30, 40, BLACK);
+        // DrawText("Grand Theft prawo jazdy", 30, 30, 40, BLACK);
         ui.draw();
         EndDrawing();
     }

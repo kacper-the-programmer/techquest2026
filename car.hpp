@@ -17,6 +17,7 @@ private:
     float speed = 0;
     int speed_constant = 40;
     int gear = 0;
+    bool is_engine_running = false;
 
     Texture2D texture;
     Rectangle source;
@@ -38,97 +39,110 @@ public:
     ~car()
     {
         UnloadTexture(texture);
+        UnloadSound(sfx[0]);
+        UnloadSound(sfx[1]);
     }
 
     void logic()
     {
-        if (!IsSoundPlaying(sfx[0]))
+        if (!IsSoundPlaying(this->sfx[0]) && this->is_engine_running)
         {
-            PlaySound(sfx[0]);
+            PlaySound(this->sfx[0]);
         }
         if (this->gear > 0 && this->speed <= 0.0f)
         {
             this->speed = 0;
         }
+        if (!this->is_engine_running)
+        {
+            this->speed = 0;
+        }
     }
 
+    void set_engine_value(bool value)
+    {
+        this->is_engine_running = value;
+    }
+    bool get_engine_value()
+    {
+        return this->is_engine_running;
+    }
+    void set_gear(int value)
+    {
+        this->gear = value;
+        this->max_speed = value * 100;
+        this->speed_constant = this->max_speed / 4;
+    }
     void input()
     {
-        if (IsKeyDown(KEY_W) && (this->speed <= this->max_speed && this->gear > 0 || this->speed >= this->max_speed && this->gear == -1))
+        if (is_engine_running)
         {
-            this->speed += this->speed_constant * GetFrameTime();
-        }
+            if (IsKeyDown(KEY_W) && (this->speed <= this->max_speed && this->gear > 0 || this->speed >= this->max_speed && this->gear == -1))
+            {
+                this->speed += this->speed_constant * GetFrameTime();
+            }
 
-        if (IsKeyDown(KEY_S) && (this->speed >= 0 && this->gear > 0 || this->speed <= 0 && this->gear == -1))
-        {
-            this->speed -= this->speed_constant * 3 * GetFrameTime();
-        }
+            if (IsKeyDown(KEY_S) && (this->speed >= 0 && this->gear > 0 || this->speed <= 0 && this->gear == -1))
+            {
+                this->speed -= this->speed_constant * 3 * GetFrameTime();
+            }
 
-        if (!IsKeyDown(KEY_W) && this->speed > 0)
-        {
-            this->speed -= this->speed_constant * 0.5 * GetFrameTime();
-        }
+            if (!IsKeyDown(KEY_W) && this->speed > 0)
+            {
+                this->speed -= this->speed_constant * 0.5 * GetFrameTime();
+            }
 
-        if (IsKeyDown(KEY_A) && (this->speed > 1 || this->speed < -1))
-        {
-            this->rotation -= 20 * speed_constant / 10 * GetFrameTime();
-        }
-        if (IsKeyDown(KEY_D) && (this->speed > 1 || this->speed < -1))
-        {
-            this->rotation += 20 * speed_constant / 10 * GetFrameTime();
-        }
+            if (IsKeyDown(KEY_A) && (this->speed > 1 || this->speed < -1))
+            {
+                this->rotation -= 20 * speed_constant / 10 * GetFrameTime();
+            }
+            if (IsKeyDown(KEY_D) && (this->speed > 1 || this->speed < -1))
+            {
+                this->rotation += 20 * speed_constant / 10 * GetFrameTime();
+            }
 
+            if (IsKeyDown(KEY_E) || IsKeyDown(KEY_R))
+            {
+                if (!IsSoundPlaying(sfx[1]))
+                {
+                    PlaySound(sfx[1]);
+                }
+            }
+        }
         if (IsKeyDown(KEY_Q) && !IsKeyDown(KEY_W))
         {
 
             if (IsKeyDown(KEY_ONE))
             {
-                this->max_speed = 100;
-                this->speed_constant = 30;
+                this->set_gear(1);
             }
             if (IsKeyDown(KEY_TWO))
             {
-                this->max_speed = 200;
-                this->speed_constant = 40;
+                this->set_gear(2);
             }
             if (IsKeyDown(KEY_THREE))
             {
-                this->max_speed = 300;
-                this->speed_constant = 50;
+                this->set_gear(3);
             }
             if (IsKeyDown(KEY_FOUR))
             {
-                this->max_speed = 400;
-                this->speed_constant = 60;
+                this->set_gear(4);
             }
             if (IsKeyDown(KEY_FIVE))
             {
-                this->max_speed = 500;
-                this->speed_constant = 70;
+                this->set_gear(5);
             }
             if (IsKeyDown(KEY_SIX))
             {
-                this->max_speed = 600;
-                this->speed_constant = 80;
+                this->set_gear(6);
             }
             if (IsKeyDown(KEY_ZERO))
             {
-                this->max_speed = 0;
-                this->speed_constant = 0;
+                this->set_gear(0);
             }
             if (IsKeyDown(KEY_MINUS))
             {
-                this->max_speed = -100;
-                this->speed_constant = -30;
-            }
-            this->gear = this->max_speed / 100;
-        }
-
-        if (IsKeyDown(KEY_E) || IsKeyDown(KEY_R))
-        {
-            if (!IsSoundPlaying(sfx[1]))
-            {
-                PlaySound(sfx[1]);
+                this->set_gear(-1);
             }
         }
     }

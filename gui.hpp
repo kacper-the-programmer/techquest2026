@@ -60,6 +60,7 @@ private:
     Rectangle hitbox;
     float size;
     std::string value;
+    Vector2 position;
 
     Texture2D texture;
 
@@ -71,7 +72,7 @@ public:
         texture = normal_texture;
         this->size = size;
         this->value = value;
-        hitbox = {this->x, this->y, (float)this->x + this->texture.width * this->size, (float)this->y + this->texture.height * this->size};
+        change_position(x, y);
     }
     ~button()
     {
@@ -84,7 +85,15 @@ public:
     {
         this->click_texture = LoadTexture(path.c_str());
     }
-
+    void change_position(float x, float y)
+    {
+        this->position = {x, y};
+        hitbox = {
+            this->position.x,
+            this->position.y,
+            this->texture.width * this->size,
+            this->texture.height * this->size};
+    }
     void set_to_normal()
     {
         this->texture = this->normal_texture;
@@ -94,19 +103,22 @@ public:
     {
         this->texture = this->click_texture;
     }
+    void set_texture(std::string path)
+    {
+        this->texture = LoadTexture(path.c_str());
+    }
 
     void on_click(std::function<void()> func)
     {
         if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT) && CheckCollisionPointRec(GetMousePosition(), this->hitbox))
         {
-            // set_to_clicked();
             func();
         }
     }
 
     void draw()
     {
-        DrawTextureEx(this->texture, {this->x, this->y}, 0, this->size, WHITE);
+        DrawTextureEx(this->texture, this->position, 0, this->size, WHITE);
         DrawText(this->value.c_str(), this->x, this->y, 50, BLACK);
     }
 };
