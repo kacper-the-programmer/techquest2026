@@ -1,0 +1,18 @@
+std::vector<Texture2D> ground_textures = {
+        LoadTexture("assets/road/background/sand.png"),
+    };
+
+
+Texture2D sand = LoadTexture("assets/road/background/sand.png");
+
+
+
+ int tileSize = sand.width; // albo np. 64
+
+    for (int y = 0; y < 10000; y += tileSize)
+    {
+    for (int x = 0; x < 10000; x += tileSize)
+    {
+        DrawTexture(sand, x, y, WHITE);
+    }
+}
