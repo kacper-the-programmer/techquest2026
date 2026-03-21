@@ -183,7 +183,7 @@ void map2(void)
         DrawFPS(10, 10);
 
         DrawText("Grand Theft prawo jazdy", 30, 30, 40, BLACK);
-        // player.draw_gui();
+        ui.draw();
         EndDrawing();
     }
 
