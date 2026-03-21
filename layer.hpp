@@ -16,9 +16,9 @@ private:
     float scale = 7.0f;
 
     std::vector<Texture2D> *background;
+    std::vector<Texture2D> *foreground;
     std::vector<std::vector<int>> *structure;
 
-    // Pomocnicza funkcja sprawdzająca kolizję z talami w tej warstwie
     bool check_collision_at(float nextX, float nextY)
     {
         if (!structure || !background)
@@ -33,7 +33,6 @@ private:
                 if (tileData == 0)
                     continue;
 
-                // Wyciągamy X z formatu XPRRR (np. 12090 / 10000 = 1)
                 int collisionFlag = std::abs(tileData) / 10000;
 
                 if (collisionFlag == 1)
@@ -44,7 +43,6 @@ private:
 
                     Texture2D &tex = (*background)[background_num - 1];
 
-                    // Obliczamy obszar kafelka na ekranie przy nowych współrzędnych
                     float tileW = tex.width * scale;
                     float tileH = tex.height * scale;
                     float tilePosX = tileW * x_i + nextX;
@@ -52,7 +50,6 @@ private:
 
                     Rectangle tileRect = {tilePosX, tilePosY, tileW, tileH};
 
-                    // Sprawdzamy czy środek ekranu (pozycja auta) jest wewnątrz kafelka
                     Vector2 carPos = {(float)GetScreenWidth() / 2.0f, (float)GetScreenHeight() / 2.0f};
 
                     if (CheckCollisionPointRec(carPos, tileRect))
@@ -68,10 +65,12 @@ private:
 public:
     layer(car *player, float scale,
           std::vector<Texture2D> *background,
+          std::vector<Texture2D> *foreground,
           std::vector<std::vector<int>> *structure)
     {
         this->player = player;
         this->background = background;
+        this->foreground = foreground;
         this->structure = structure;
         this->scale *= scale;
     }
@@ -85,22 +84,20 @@ public:
         float radians = player->get_rotation() * DEG2RAD;
         float frameSpeed = speed * GetFrameTime();
 
-        // Obliczamy potencjalne nowe przesunięcie mapy
         float nextX = this->x;
         float nextY = this->y;
 
         if (speed > 0)
-        { // Forward
+        {
             nextX -= sinf(radians) * frameSpeed;
             nextY += cosf(radians) * frameSpeed;
         }
         else
-        { // Backward
+        {
             nextX += sinf(radians) * std::abs(frameSpeed);
             nextY -= cosf(radians) * std::abs(frameSpeed);
         }
 
-        // Jeśli nowa pozycja nie powoduje kolizji, aktualizujemy
         if (!check_collision_at(nextX, nextY))
         {
             this->x = nextX;
@@ -108,8 +105,6 @@ public:
         }
         else
         {
-            // Opcjonalnie: zatrzymaj samochód przy uderzeniu
-            // player->stop(); // Wymagałoby dodania metody w car.hpp
         }
     }
 
@@ -130,9 +125,6 @@ public:
 
                 int flip = (row[x_i] < 0) ? -1 : 1;
 
-                // Dekodowanie formatu XPRRR
-                // RRR = ostatnie 3 cyfry
-                // P = cyfra tysięcy
                 int rotation = val % 1000;
                 int background_num = (val % 10000) / 1000;
 
