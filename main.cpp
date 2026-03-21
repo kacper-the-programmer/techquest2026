@@ -14,13 +14,14 @@ int main(void)
     InitAudioDevice();
     SetTargetFPS(60);
 
-    button a("start", "assets/gui/button_0.png", "assets/gui/button_1.png", 0, 0, 5);
+    button a("start", "assets/gui/button_0.png", "assets/gui/button_1.png", GetScreenWidth() / 2, GetScreenHeight() / 2, 5);
     while (!WindowShouldClose())
     {
         a.on_click(map1);
 
         ClearBackground(WHITE);
 
+        DrawText("Autoskill", GetScreenWidth() / 2, 0, 20, RED);
         a.draw();
 
         EndDrawing();

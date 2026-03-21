@@ -155,7 +155,7 @@ public:
             }
             else
             {
-                this->gears->change_image("assets/gui/gears_0.png");
+                this->gears->change_image("assets/gui/gears_1.png");
             }
             break;
         case 2:
