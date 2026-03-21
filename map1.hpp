@@ -10,14 +10,25 @@ void map1(void)
     float scale = 1;
 
     std::vector<std::vector<int>> elements1 = {
-        {-3000, 3000, 12090},
-        {1000, 2000},
-        {1000, 2020},
-        {},
-        {1000, 1000},
-        {4000, 4000},
+        {0000, 0000},
+        {0000, 1000},
+        {0000, 1000, 0000, 0000, 0000, 0000, 0000, 3270, 3000},
+        {0000, 1000, 0000, 0000, 0000, 3270, 1090, 4000, 3090},
+        {0000, 1000, 0000, 0000, 0000, 0000, 0000, 1000},
+        {3270, 4000, 1090, 1090, 0000, 0000, 0000, 3090},
+        {1000, 1000, },
+        {1000, 1000, 0000, 0000, 0000, 1000},
+        {3180, 5180, 1090, 1090, 1090, 3090},
     };
-
+    std::vector<std::vector<int>> rdb = {
+        {0000, 0000, 0000},
+        {0000, 0000, 0000},
+        {0000, 0000, 0000},
+        {0000, 0000, 0000},
+        {0000, 0000, 0000, 0000, 3000,2000,1000},
+        {0000, 0000, 0000, 0000, 4000,0000,8000},
+        {0000, 0000, 0000, 0000,5000,6000,7000},
+    };
     std::vector<std::vector<int>> elements2;
 
     for (size_t i = 0; i < 100; i++)
@@ -47,12 +58,23 @@ void map1(void)
         LoadTexture("assets/road/background/grass.png"),
 
     };
+    std::vector<Texture2D> roundabout_textures = {
+        LoadTexture("assets/road/roundabout/0.png"),
+        LoadTexture("assets/road/roundabout/1.png"),
+        LoadTexture("assets/road/roundabout/2.png"),
+        LoadTexture("assets/road/roundabout/3.png"),
+        LoadTexture("assets/road/roundabout/4.png"),
+        LoadTexture("assets/road/roundabout/5.png"),
+        LoadTexture("assets/road/roundabout/6.png"),
+        LoadTexture("assets/road/roundabout/7.png"),
+        LoadTexture("assets/road/roundabout/8.png")};
 
     car player(0, scale);
     car_ui ui(&player);
     ui.init();
     layer buldings(&player, scale, &ground_textures, &elements2, true);
     layer map(&player, scale, &road_textures, &elements1);
+    layer roundabouts(&player, scale, &roundabout_textures, &rdb);
 
     Music music = LoadMusicStream("assets/sfx/song_1.wav");
     PlayMusicStream(music);
@@ -66,6 +88,7 @@ void map1(void)
         ui.input();
         map.input();
         buldings.input();
+        roundabouts.input();
 
         player.input();
 
@@ -73,8 +96,8 @@ void map1(void)
 
         buldings.draw();
         map.draw();
+        roundabouts.draw();
         player.draw();
-
         DrawFPS(10, 10);
 
         // DrawText("Grand Theft prawo jazdy", 30, 30, 40, BLACK);
