@@ -6,7 +6,6 @@
 #include <vector>
 
 #include "map1.hpp"
-#include "map2.hpp"
 
 int main(void)
 {

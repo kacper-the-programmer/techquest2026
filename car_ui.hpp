@@ -9,6 +9,8 @@ class car_ui
 {
 private:
     car *player;
+    float blinker_timer = 0.0f;
+    bool blinker_state = false;
 
     image_widget *dashbord;
     image_widget *meter_holder;
@@ -140,10 +142,40 @@ public:
         this->key_in->on_click([this]()
                                { engine(); });
         this->speed_pointer->change_rotation(this->player->get_speed() / 2.21);
+
+        switch (this->player->get_gear())
+        {
+        case -1:
+            this->gears->change_image("assets/gui/gears_R.png");
+            break;
+        case 0:
+            this->gears->change_image("assets/gui/gears_0.png");
+            break;
+        case 1:
+            this->gears->change_image("assets/gui/gears_1.png");
+            break;
+        case 2:
+            this->gears->change_image("assets/gui/gears_2.png");
+            break;
+        case 3:
+            this->gears->change_image("assets/gui/gears_3.png");
+            break;
+        case 4:
+            this->gears->change_image("assets/gui/gears_4.png");
+            break;
+        case 5:
+            this->gears->change_image("assets/gui/gears_5.png");
+            break;
+        case 6:
+            this->gears->change_image("assets/gui/gears_6.png");
+            break;
+        default:
+            break;
+        }
     }
     void input()
     {
-        if (IsKeyDown(KEY_W))
+        if (IsKeyDown(KEY_W) && !IsKeyDown(KEY_Q))
         {
             this->pedal_gas->change_image("assets/gui/pedals/gas_1.png");
             this->pedal_gas->change_y(-50);
@@ -165,7 +197,7 @@ public:
             this->pedal_break->change_y(0);
         }
 
-        if (IsKeyDown(KEY_Q))
+        if (IsKeyDown(KEY_Q) && !IsKeyDown(KEY_W))
         {
             this->pedal_clutch->change_image("assets/gui/pedals/clutch_1.png");
             this->pedal_clutch->change_y(-50);
@@ -178,20 +210,42 @@ public:
 
         if (IsKeyDown(KEY_E))
         {
-            // float blinker_timer = 0.0f;
-            // bool blinker_visible = false;
-            // float blink_interval = 0.5f;
+            blinker_timer += GetFrameTime();
 
-            // blinker_timer += GetFrameTime();
-            // if (blinker_timer >= blink_interval)
-            // {
-            //     blinker_visible = !blinker_visible; // Przełącz stan widoczności
-            //     blinker_left->change_image("assets/gui/blinkers/left_1.png");
-            //     blinker_timer = 0.0f; // Zresetuj licznik
-            // }
-            // if ()
-            // {
-            // }
+            if (blinker_timer >= 0.4f)
+            {
+                blinker_state = !blinker_state;
+                blinker_timer = 0.0f;
+            }
+
+            if (blinker_state)
+                blinker_left->change_image("assets/gui/blinkers/left_1.png");
+            else
+                blinker_left->change_image("assets/gui/blinkers/left_0.png");
+        }
+        if (IsKeyDown(KEY_R))
+        {
+            blinker_timer += GetFrameTime();
+
+            if (blinker_timer >= 0.4f)
+            {
+                blinker_state = !blinker_state;
+                blinker_timer = 0.0f;
+            }
+
+            if (blinker_state)
+                blinker_right->change_image("assets/gui/blinkers/right_1.png");
+            else
+                blinker_right->change_image("assets/gui/blinkers/right_0.png");
+        }
+        if (!IsKeyDown(KEY_E) && !IsKeyDown(KEY_R))
+        {
+
+            blinker_left->change_image("assets/gui/blinkers/left_0.png");
+            blinker_right->change_image("assets/gui/blinkers/right_0.png");
+
+            blinker_timer = 0.0f;
+            blinker_state = false;
         }
     }
 

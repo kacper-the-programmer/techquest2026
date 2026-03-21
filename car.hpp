@@ -18,6 +18,7 @@ private:
     int speed_constant = 40;
     int gear = 0;
     bool is_engine_running = false;
+    bool is_reverse = false;
 
     Texture2D texture;
     Rectangle source;
@@ -49,56 +50,103 @@ public:
         {
             PlaySound(this->sfx[0]);
         }
+
         if (this->gear > 0 && this->speed <= 0.0f)
         {
             this->speed = 0;
         }
+
         if (!this->is_engine_running)
         {
-            this->speed = 0;
+            if (this->speed > 0)
+            {
+                this->speed -= this->speed_constant * 1 * GetFrameTime();
+            }
+            else if (this->speed <= 0)
+            {
+                this->speed = 0;
+            }
         }
+
+        if (!IsKeyDown(KEY_W) && this->speed > 0)
+        {
+            this->speed -= this->speed_constant * 0.5 * GetFrameTime();
+        }
+
+        // if (this->gear == -1 && this->speed >= 0)
+        // {
+        //     this->speed = 0;
+        // }
+
+        if (this->speed > this->max_speed)
+        {
+            this->speed -= this->speed_constant * 1 * GetFrameTime();
+        }
+    }
+
+    int get_gear()
+    {
+        return this->gear;
     }
 
     void set_engine_value(bool value)
     {
         this->is_engine_running = value;
     }
+
     bool get_engine_value()
     {
         return this->is_engine_running;
     }
+
+    bool get_reverse()
+    {
+        return this->is_reverse;
+    }
+
     void set_gear(int value)
     {
-        this->gear = value;
-        this->max_speed = value * 100;
-        this->speed_constant = this->max_speed / 4;
+        if (this->gear + 1 == value || this->gear - 1 == value)
+        {
+            this->gear = value;
+            this->max_speed = value * 100;
+            this->speed_constant = this->max_speed / 4;
+        }
     }
+
     void input()
     {
         if (is_engine_running)
         {
-            if (IsKeyDown(KEY_W) && (this->speed <= this->max_speed && this->gear > 0 || this->speed >= this->max_speed && this->gear == -1))
+            if (IsKeyDown(KEY_W))
             {
-                this->speed += this->speed_constant * GetFrameTime();
+                if (this->speed <= this->max_speed && this->gear >= 1)
+                {
+                    this->speed += this->speed_constant * GetFrameTime();
+                }
             }
 
-            if (IsKeyDown(KEY_S) && (this->speed >= 0 && this->gear > 0 || this->speed <= 0 && this->gear == -1))
+            if (IsKeyDown(KEY_S))
             {
-                this->speed -= this->speed_constant * 3 * GetFrameTime();
+                if (this->speed >= 0 && this->gear > 0)
+                {
+                    this->speed -= this->speed_constant * 3 * GetFrameTime();
+                }
             }
 
-            if (!IsKeyDown(KEY_W) && this->speed > 0)
+            if (IsKeyDown(KEY_A))
             {
-                this->speed -= this->speed_constant * 0.5 * GetFrameTime();
+                if (this->speed > 0)
+                {
+                    this->rotation -= 20 * speed_constant / 10 * GetFrameTime();
+                }
             }
-
-            if (IsKeyDown(KEY_A) && (this->speed > 1 || this->speed < -1))
+            if (IsKeyDown(KEY_D))
             {
-                this->rotation -= 20 * speed_constant / 10 * GetFrameTime();
-            }
-            if (IsKeyDown(KEY_D) && (this->speed > 1 || this->speed < -1))
-            {
-                this->rotation += 20 * speed_constant / 10 * GetFrameTime();
+                if (this->speed > 0)
+                {
+                    this->rotation += 20 * speed_constant / 10 * GetFrameTime();
+                }
             }
 
             if (IsKeyDown(KEY_E) || IsKeyDown(KEY_R))
@@ -109,6 +157,7 @@ public:
                 }
             }
         }
+
         if (IsKeyDown(KEY_Q) && !IsKeyDown(KEY_W))
         {
 
@@ -139,10 +188,12 @@ public:
             if (IsKeyDown(KEY_ZERO))
             {
                 this->set_gear(0);
+                this->is_reverse = false;
             }
             if (IsKeyDown(KEY_MINUS))
             {
-                this->set_gear(-1);
+                this->set_gear(1);
+                this->is_reverse = true;
             }
         }
     }
