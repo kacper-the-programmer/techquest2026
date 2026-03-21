@@ -10,8 +10,6 @@ void map1(void)
 
     int scale = 1;
 
-    
-    
     std::vector<std::vector<int>> elements2 = {
         {2000, 2000, 14000},
         {2000, 1000},
@@ -20,7 +18,7 @@ void map1(void)
         {2000, 2000},
     };
 
-     std::vector<std::vector<int>> elements1 = {
+    std::vector<std::vector<int>> elements1 = {
         {0000, 6000, 0000, 0000, 0000, 3000, 0000, 0000, 3270, 2090, 1090, 1090, 3000},
         {0000, 1000, 0000, 0000, 0000, 1000, 0000, 0000, 1000, 0000, 0000, 0000, 1000},
         {0000, 1000, 0000, 0000, 0000, 3180, 1090, 2090, 4000, 3000, 0000, 0000, 1000},
@@ -32,7 +30,7 @@ void map1(void)
         {0000, 3180, 1090, 1090, 1090, 1090, 1090, 1090, 1090, 5180, 1090, 1090, 6090},
     };
 
-        std::vector<std::vector<int>> rdb = {
+    std::vector<std::vector<int>> rdb = {
         {0000, 0000, 0000},
         {0000, 0000, 0000},
         {0000, 0000, 0000},
@@ -40,8 +38,8 @@ void map1(void)
         {3000, 2000, 1000},
         {4000, 0000, 8000},
         {5000, 6000, 7000}};
-        
-        std::vector<Texture2D> road_textures = {
+
+    std::vector<Texture2D> road_textures = {
         LoadTexture("assets/road/0.png"),
         LoadTexture("assets/road/1.png"),
         LoadTexture("assets/road/2.png"),
@@ -57,7 +55,7 @@ void map1(void)
         LoadTexture("assets/nothing.png"),
     };
 
-        std::vector<Texture2D> roundabout_textures = {
+    std::vector<Texture2D> roundabout_textures = {
         LoadTexture("assets/road/roundabout/0.png"),
         LoadTexture("assets/road/roundabout/1.png"),
         LoadTexture("assets/road/roundabout/2.png"),
@@ -67,8 +65,8 @@ void map1(void)
         LoadTexture("assets/road/roundabout/6.png"),
         LoadTexture("assets/road/roundabout/7.png"),
         LoadTexture("assets/road/roundabout/8.png")};
-        
-        std::vector<Texture2D> parking_textures = {
+
+    std::vector<Texture2D> parking_textures = {
         LoadTexture("assets/road/parking_asphalt.png"),
         LoadTexture("assets/road/parking_asphalt_2.png"),
         LoadTexture("assets/road/parking_asphalt_triple_connected1.png"),
@@ -76,8 +74,8 @@ void map1(void)
         LoadTexture("assets/road/asphalt_parking_exit1.png"),
         LoadTexture("assets/road/asphalt_parking_exit2.png")};
 
-        Texture2D sand = LoadTexture("assets/road/background/sand.png");
-        std::vector<std::vector<int>> parking_pos = {
+    Texture2D sand = LoadTexture("assets/road/background/sand.png");
+    std::vector<std::vector<int>> parking_pos = {
         {0000, 0000, 0000, 0000, 0000},
         {0000, 0000, 0000, 0000, 0000},
         {0000, 0000, 0000, 0000, 0000},
@@ -87,10 +85,10 @@ void map1(void)
     car player(0, scale);
     car_ui ui(&player);
     ui.init();
-    layer buldings(&player, scale, &ground_textures, &ground_textures, &elements2);
-    layer map(&player, scale, &road_textures, &road_textures, &elements1);
-    layer roundabouts(&player, scale, &roundabout_textures, &roundabout_textures, &rdb);
-    layer parking_place(&player, scale, &parking_textures, &parking_textures, &parking_pos);
+    layer buldings(&player, scale, &ground_textures, &elements2);
+    layer map(&player, scale, &road_textures, &elements1);
+    layer roundabouts(&player, scale, &roundabout_textures, &rdb);
+    layer parking_place(&player, scale, &parking_textures, &parking_pos);
 
     Music music = LoadMusicStream("assets/sfx/song_1.wav");
     PlayMusicStream(music);
@@ -104,29 +102,28 @@ void map1(void)
         ui.input();
         map.input();
         buldings.input();
-        roundabouts.input(); //D
+        roundabouts.input(); // D
         player.input();
         parking_place.input();
 
         // ClearBackground(WHITE);
-        
 
-    int tileSize = sand.width; // albo np. 64
+        int tileSize = sand.width; // albo np. 64
 
-    for (int y = 0; y < 10000; y += tileSize)
-    {
-    for (int x = 0; x < 10000; x += tileSize)
-    {
-        DrawTexture(sand, x, y, WHITE);
-    }
-}
-        
-        // buldings.draw(); //to jedno tło 
-        map.draw(); //drogi
+        for (int y = 0; y < 10000; y += tileSize)
+        {
+            for (int x = 0; x < 10000; x += tileSize)
+            {
+                DrawTexture(sand, x, y, WHITE);
+            }
+        }
+
+        // buldings.draw(); //to jedno tło
+        map.draw(); // drogi
         roundabouts.draw();
         parking_place.draw();
         player.draw();
-        
+
         DrawFPS(10, 10);
 
         ui.draw();
