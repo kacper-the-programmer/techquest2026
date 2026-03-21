@@ -16,7 +16,6 @@ private:
     float scale = 7.0f;
 
     std::vector<Texture2D> *background;
-    std::vector<Texture2D> *foreground;
     std::vector<std::vector<int>> *structure;
 
     bool check_collision_at(float nextX, float nextY)
@@ -65,12 +64,10 @@ private:
 public:
     layer(car *player, float scale,
           std::vector<Texture2D> *background,
-          std::vector<Texture2D> *foreground,
           std::vector<std::vector<int>> *structure)
     {
         this->player = player;
         this->background = background;
-        this->foreground = foreground;
         this->structure = structure;
         this->scale *= scale;
     }

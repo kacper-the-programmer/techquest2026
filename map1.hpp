@@ -46,8 +46,8 @@ void map1(void)
     car player(0, scale);
     car_ui ui(&player);
     ui.init();
-    layer buldings(&player, scale, &ground_textures, &ground_textures, &elements2);
-    layer map(&player, scale, &road_textures, &road_textures, &elements1);
+    layer buldings(&player, scale, &ground_textures, &elements2);
+    layer map(&player, scale, &road_textures, &elements1);
 
     Music music = LoadMusicStream("assets/sfx/song_1.wav");
     PlayMusicStream(music);

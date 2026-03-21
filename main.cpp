@@ -18,7 +18,7 @@ int main(void)
     button a("start", "assets/gui/button_0.png", "assets/gui/button_1.png", 0, 0, 5);
     while (!WindowShouldClose())
     {
-        a.on_click(map2);
+        a.on_click(map1);
 
         ClearBackground(WHITE);
 
