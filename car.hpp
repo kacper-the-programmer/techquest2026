@@ -40,7 +40,7 @@ public:
     {
         UnloadTexture(texture);
         for (auto &s : sfx)
-            UnloadTexture(s);
+            UnloadSound(s);
     }
 
     void logic()
