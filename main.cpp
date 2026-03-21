@@ -2,8 +2,8 @@
 
 #include "car.hpp"
 #include "layer.hpp"
-#include "car_ui.hpp"
-#include <vector>
+// #include "car_ui.hpp"
+// #include <vector>
 
 int main(void)
 {
@@ -73,9 +73,9 @@ int main(void)
     std::vector<std::vector<int>> parking_pos = {
         {0000, 0000, 0000, 0000, 0000},
         {0000, 0000, 0000, 0000, 0000},
-        {0000, 0000, 0000, 5180, 3180},
-        {0000, 0000, 0000, 7180, 8180},
-        {0000, 0000, 0000, 0000, 0000}
+        {0000, 0000, 0000, 0000, 0000},
+        {0000, 0000, 0000, 4180, 3180},
+        {0000, 0000, 0000, 4180, 5180}
     };
 
     std::vector<Texture2D> road_textures = {
@@ -91,48 +91,48 @@ int main(void)
     };
 
     std::vector<Texture2D> ground_textures = {
-        LoadTexture("assets/road/asfalt.png"),
-        LoadTexture("assets/road/trawa.png")
+        LoadTexture("assets/road/background/asphalt.png"),
+        LoadTexture("assets/road/background/grass.png")
     };
 
     std::vector<Texture2D> building_textures01 = {
-        LoadTexture("assets/bulding/0_1.png"),
-        LoadTexture("assets/bulding/0_2.png"),
-        LoadTexture("assets/bulding/0_3.png"),
-        LoadTexture("assets/bulding/0_4.png"),
-        LoadTexture("assets/bulding/1_1.png"),
-        LoadTexture("assets/bulding/1_2.png"),
-        LoadTexture("assets/bulding/1_3.png"),
-        LoadTexture("assets/bulding/1_4.png")
+        LoadTexture("assets/building/0_1.png"),
+        LoadTexture("assets/building/0_2.png"),
+        LoadTexture("assets/building/0_3.png"),
+        LoadTexture("assets/building/0_4.png"),
+        LoadTexture("assets/building/1_1.png"),
+        LoadTexture("assets/building/1_2.png"),
+        LoadTexture("assets/building/1_3.png"),
+        LoadTexture("assets/building/1_4.png")
     };
 
     std::vector<Texture2D> building_textures23 = {
-        LoadTexture("assets/bulding/2_1.png"),
-        LoadTexture("assets/bulding/2_2.png"),
-        LoadTexture("assets/bulding/2_3.png"),
-        LoadTexture("assets/bulding/2_4.png"),
-        LoadTexture("assets/bulding/3_1.png"),
-        LoadTexture("assets/bulding/3_2.png"),
-        LoadTexture("assets/bulding/3_3.png"),
-        LoadTexture("assets/bulding/3_4.png")
+        LoadTexture("assets/building/2_1.png"),
+        LoadTexture("assets/building/2_2.png"),
+        LoadTexture("assets/building/2_3.png"),
+        LoadTexture("assets/building/2_4.png"),
+        LoadTexture("assets/building/3_1.png"),
+        LoadTexture("assets/building/3_2.png"),
+        LoadTexture("assets/building/3_3.png"),
+        LoadTexture("assets/building/3_4.png")
     };
 
     std::vector<Texture2D> building_textures45 = {
-        LoadTexture("assets/bulding/4_1.png"),
-        LoadTexture("assets/bulding/4_2.png"),
-        LoadTexture("assets/bulding/4_3.png"),
-        LoadTexture("assets/bulding/4_4.png"),
-        LoadTexture("assets/bulding/5_1.png"),
-        LoadTexture("assets/bulding/5_2.png"),
-        LoadTexture("assets/bulding/5_3.png"),
-        LoadTexture("assets/bulding/5_4.png")
+        LoadTexture("assets/building/4_1.png"),
+        LoadTexture("assets/building/4_2.png"),
+        LoadTexture("assets/building/4_3.png"),
+        LoadTexture("assets/building/4_4.png"),
+        LoadTexture("assets/building/5_1.png"),
+        LoadTexture("assets/building/5_2.png"),
+        LoadTexture("assets/building/5_3.png"),
+        LoadTexture("assets/building/5_4.png")
     };
 
     std::vector<Texture2D> building_textures6 = {
-        LoadTexture("assets/bulding/6_1.png"),
-        LoadTexture("assets/bulding/6_2.png"),
-        LoadTexture("assets/bulding/6_3.png"),
-        LoadTexture("assets/bulding/6_4.png")
+        LoadTexture("assets/building/6_1.png"),
+        LoadTexture("assets/building/6_2.png"),
+        LoadTexture("assets/building/6_3.png"),
+        LoadTexture("assets/building/6_4.png")
     };
 
     // Rondo
@@ -160,8 +160,8 @@ int main(void)
         LoadTexture("assets/road/parking_asphalt_2.png"),
         // LoadTexture("assets/road/parking.png"),
         // LoadTexture("assets/road/parking_empty.png"),
-        LoadTexture("assets/road/parking_asphalt_triple_freespace_connected1.png"),
-        LoadTexture("assets/road/parking_asphalt_triple_freespace_connected2.png"),
+        LoadTexture("assets/road/parking_asphalt_triple_connected1.png"),
+        LoadTexture("assets/road/parking_asphalt_triple_connected2.png"),
         LoadTexture("assets/road/asphalt_parking_exit1.png"),
         LoadTexture("assets/road/asphalt_parking_exit2.png")
     };
