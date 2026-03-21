@@ -73,11 +73,6 @@ public:
             this->speed -= this->speed_constant * 0.5 * GetFrameTime();
         }
 
-        // if (this->gear == -1 && this->speed >= 0)
-        // {
-        //     this->speed = 0;
-        // }
-
         if (this->speed > this->max_speed)
         {
             this->speed -= this->speed_constant * 1 * GetFrameTime();
@@ -110,7 +105,14 @@ public:
         {
             this->gear = value;
             this->max_speed = value * 100;
-            this->speed_constant = this->max_speed / 4;
+            if (value != 1)
+            {
+                this->speed_constant = this->max_speed / 4;
+            }
+            else
+            {
+                this->speed_constant = this->max_speed;
+            }
         }
     }
 

@@ -119,7 +119,7 @@ public:
     void draw()
     {
         DrawTextureEx(this->texture, this->position, 0, this->size, WHITE);
-        DrawText(this->value.c_str(), this->x, this->y, 50, BLACK);
+        DrawText(this->value.c_str(), this->position.x + 85, this->position.y + 10, 50, BLACK);
     }
 };
 
