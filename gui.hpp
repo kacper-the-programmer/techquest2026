@@ -2,6 +2,7 @@
 
 #include <raylib.h>
 #include <string>
+#include <functional>
 
 class image_widget
 {
@@ -57,16 +58,20 @@ private:
     int height;
     float rotation;
     Rectangle hitbox;
+    float size;
+    std::string value;
 
     Texture2D texture;
 
 public:
-    button(std::string path_normal, std::string path_clicked, float x, float y)
+    button(std::string value, std::string path_normal, std::string path_clicked, float x, float y, float size)
     {
         change_normal_texture(path_normal);
         change_click_texture(path_clicked);
         texture = normal_texture;
-        hitbox = {this->x, this->y, (float)this->x + this->texture.width, (float)this->y + this->texture.height};
+        this->size = size;
+        this->value = value;
+        hitbox = {this->x, this->y, (float)this->x + this->texture.width * this->size, (float)this->y + this->texture.height * this->size};
     }
     ~button()
     {
@@ -90,17 +95,19 @@ public:
         this->texture = this->click_texture;
     }
 
-    void on_click(void *func)
+    void on_click(std::function<void()> func)
     {
         if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT) && CheckCollisionPointRec(GetMousePosition(), this->hitbox))
         {
-            set_to_clicked();
+            // set_to_clicked();
+            func();
         }
     }
 
     void draw()
     {
-        DrawTexture(this->texture, this->x, this->y, WHITE);
+        DrawTextureEx(this->texture, {this->x, this->y}, 0, this->size, WHITE);
+        DrawText(this->value.c_str(), this->x, this->y, 50, BLACK);
     }
 };
 
