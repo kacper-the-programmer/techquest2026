@@ -90,7 +90,7 @@ public:
 
     void logic()
     {
-        this->speed_pointer->change_rotation(this->player->get_speed() - 150);
+        this->speed_pointer->change_rotation(this->player->get_speed() / 2.21);
     }
     void input()
     {
