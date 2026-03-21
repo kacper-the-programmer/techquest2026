@@ -5,7 +5,7 @@
 #include "car_ui.hpp"
 #include <vector>
 
-#include "map.hpp"
+#include "map1.hpp"
 
 int main(void)
 {
@@ -18,11 +18,6 @@ int main(void)
     while (!WindowShouldClose())
     {
         a.on_click(map1);
-
-        if (IsKeyDown(KEY_SPACE))
-        {
-            map1();
-        }
 
         ClearBackground(WHITE);
 
