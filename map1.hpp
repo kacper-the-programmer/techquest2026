@@ -75,9 +75,8 @@ void map1(void)
         map.draw();
         player.draw();
 
-        DrawFPS(10, 10);
+        // DrawFPS(10, 10);
 
-        // DrawText("Grand Theft prawo jazdy", 30, 30, 40, BLACK);
         ui.draw();
         EndDrawing();
     }

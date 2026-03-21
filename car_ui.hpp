@@ -145,14 +145,18 @@ public:
 
         switch (this->player->get_gear())
         {
-        case -1:
-            this->gears->change_image("assets/gui/gears_R.png");
-            break;
         case 0:
             this->gears->change_image("assets/gui/gears_0.png");
             break;
         case 1:
-            this->gears->change_image("assets/gui/gears_1.png");
+            if (this->player->get_reverse())
+            {
+                this->gears->change_image("assets/gui/gears_R.png");
+            }
+            else
+            {
+                this->gears->change_image("assets/gui/gears_0.png");
+            }
             break;
         case 2:
             this->gears->change_image("assets/gui/gears_2.png");
@@ -251,9 +255,6 @@ public:
 
     void draw()
     {
-        DrawText(std::to_string(this->player->get_speed()).c_str(), 100, 0, 20, BLACK);
-        DrawText(std::to_string(this->player->get_max_speed() / 100).c_str(), 400, 0, 20, BLACK);
-
         this->dashbord->draw();
         this->meter_holder->draw();
         this->speedmeter->draw();
