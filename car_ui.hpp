@@ -23,6 +23,7 @@ private:
     image_widget *pedal_gas;
 
     advance_image_widget *speed_pointer;
+    advance_image_widget *grade_pointer;
 
 public:
     car_ui(car *player)
@@ -85,7 +86,14 @@ public:
             static_cast<float>(GetScreenWidth() / 6.35),
             static_cast<float>(GetScreenHeight() / 1.2),
             3,
-            -150);
+            0);
+
+        this->grade_pointer = new advance_image_widget(
+            "assets/gui/meters/pointer.png",
+            static_cast<float>(GetScreenWidth() / 3.20),
+            static_cast<float>(GetScreenHeight() / 1.2),
+            3,
+            175);
     }
 
     void logic()
@@ -143,5 +151,6 @@ public:
         this->pedal_break->draw();
         this->pedal_gas->draw();
         this->speed_pointer->draw();
+        this->grade_pointer->draw();
     }
 };

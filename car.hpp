@@ -25,6 +25,7 @@ private:
 
     std::vector<Sound> sfx = {
         LoadSound("assets/sfx/working_eng.wav"),
+        LoadSound("assets/sfx/lights.wav"),
     };
 
 public:
@@ -121,6 +122,14 @@ public:
                 this->speed_constant = -30;
             }
             this->gear = this->max_speed / 100;
+        }
+
+        if (IsKeyDown(KEY_E) || IsKeyDown(KEY_R))
+        {
+            if (!IsSoundPlaying(sfx[1]))
+            {
+                PlaySound(sfx[1]);
+            }
         }
     }
 
