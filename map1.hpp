@@ -68,13 +68,13 @@ void map1(void)
         LoadTexture("assets/road/roundabout/7.png"),
         LoadTexture("assets/road/roundabout/8.png")};
         
-        // std::vector<Texture2D> parking_textures = {
-        // LoadTexture("assets/road/parking_asphalt.png"),
-        // LoadTexture("assets/road/parking_asphalt_2.png"),
-        // LoadTexture("assets/road/parking_asphalt_triple_connected1.png"),
-        // LoadTexture("assets/road/parking_asphalt_triple_connected2.png"),
-        // LoadTexture("assets/road/asphalt_parking_exit1.png"),
-        // LoadTexture("assets/road/asphalt_parking_exit2.png")};
+        std::vector<Texture2D> parking_textures = {
+        LoadTexture("assets/road/parking_asphalt.png"),
+        LoadTexture("assets/road/parking_asphalt_2.png"),
+        LoadTexture("assets/road/parking_asphalt_triple_connected1.png"),
+        LoadTexture("assets/road/parking_asphalt_triple_connected2.png"),
+        LoadTexture("assets/road/asphalt_parking_exit1.png"),
+        LoadTexture("assets/road/asphalt_parking_exit2.png")};
 
         Texture2D sand = LoadTexture("assets/road/background/sand.png");
         std::vector<std::vector<int>> parking_pos = {
@@ -87,15 +87,10 @@ void map1(void)
     car player(0, scale);
     car_ui ui(&player);
     ui.init();
-<<<<<<< HEAD
     layer buldings(&player, scale, &ground_textures, &ground_textures, &elements2);
     layer map(&player, scale, &road_textures, &road_textures, &elements1);
     layer roundabouts(&player, scale, &roundabout_textures, &roundabout_textures, &rdb);
-    // layer parking_place(&player, scale, &parking_textures, &parking_textures, &parking_pos);
-=======
-    layer buldings(&player, scale, &ground_textures, &elements2);
-    layer map(&player, scale, &road_textures, &elements1);
->>>>>>> b9fdaafa0931cd41973542017264c157451ae492
+    layer parking_place(&player, scale, &parking_textures, &parking_textures, &parking_pos);
 
     Music music = LoadMusicStream("assets/sfx/song_1.wav");
     PlayMusicStream(music);
@@ -111,7 +106,7 @@ void map1(void)
         buldings.input();
         roundabouts.input(); //D
         player.input();
-        // parking_place.input();
+        parking_place.input();
 
         // ClearBackground(WHITE);
         
@@ -129,7 +124,7 @@ void map1(void)
         // buldings.draw(); //to jedno tło 
         map.draw(); //drogi
         roundabouts.draw();
-        // parking_place.draw();
+        parking_place.draw();
         player.draw();
         
         DrawFPS(10, 10);
