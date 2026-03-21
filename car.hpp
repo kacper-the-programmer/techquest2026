@@ -39,8 +39,8 @@ public:
     ~car()
     {
         UnloadTexture(texture);
-        UnloadSound(sfx[0]);
-        UnloadSound(sfx[1]);
+        for (auto &s : sfx)
+            UnloadTexture(s);
     }
 
     void logic()

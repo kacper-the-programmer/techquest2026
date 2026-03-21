@@ -7,16 +7,8 @@
 
 void map1(void)
 {
-    // const int screenWidth = 1920;
-    // const int screenHeight = 1080;
 
     int scale = 1;
-
-    // SetConfigFlags(FLAG_FULLSCREEN_MODE);
-    // InitWindow(screenWidth, screenHeight, "grand theft prawo jazdy");
-    // InitAudioDevice();
-
-    // SetTargetFPS(60);
 
     std::vector<std::vector<int>> elements1 = {
         {-3000, 3000, 12090},
@@ -67,8 +59,8 @@ void map1(void)
         ui.logic();
         BeginDrawing();
         ui.input();
-        // map.input();
-        // buldings.input();
+        map.input();
+        buldings.input();
 
         player.input();
 
@@ -80,7 +72,6 @@ void map1(void)
 
         DrawFPS(10, 10);
 
-        // DrawText("Grand Theft prawo jazdy", 30, 30, 40, BLACK);
         ui.draw();
         EndDrawing();
     }
